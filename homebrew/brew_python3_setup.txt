@@ -275,11 +275,15 @@ Although things will run as I've installed them above (that is, the various IPyt
 > brew link qt
 > brew install pyqt
 
-After the last line, PyQt is installed in /usr/local/lib/python2.7/site-packages, so that we need to include the line
+(Note, this seems to need PyQt4, hence Qt < 5.  Why IPython tries to load the qtconsole, it does a check for Qt4 and PyQt4.)  This states the following among the output:
 
-export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+==> Caveats
+The sip-dir for Python 2.x is /usr/local/share/sip.
+The sip-dir for Python 3.x is /usr/local/share/sip3.
 
-in the .bashrc file and source it.  Then we continue by installing ZeroMQ with Homebrew:
+But from the compilation sequence, this only calls python2.  So I'm not sure what's going to happen with python3 and ipython3 later on.
+
+Then we continue by installing ZeroMQ with Homebrew:
 
 > brew install zmq
 
