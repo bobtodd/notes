@@ -73,7 +73,7 @@ and this lists the error encountered above.  So the solution *should* be to inst
 #########################################################
 Phase 1: Getting the Pythons Working
 
-We start with the Mac OS Lion System Python, which happens to be Python 2.7.1.  On top of that we add Homebrew's normal Python installation (now Python 2.7.3):
+We start with the Mac OS Lion System Python, which happens to be Python 2.7.1.  On top of that we add Homebrew's normal Python installation (now Python 2.7.x):
 
 > brew install python
 
@@ -82,22 +82,23 @@ Then we add /usr/local/share/python to the PATH in .bashrc and source the file:
 export PATH=/usr/local/share/python:$PATH
 > source ~/.bashrc
 
-# NB: Homebrew now states that Setuptools and Pip have been installed.  So the next step appears to be unnecessary.
-
-#Next we install "pip" via "easy_install":
-#
-#> easy_install pip
-#
-#At this point the "easy_install" should be keyed to Homebrew's Python 2.7, so that "pip" #will use Homebrew's install of Python 2.7 as its default.
-#
+NB: Homebrew now states that Setuptools and Pip have been installed.  So we do not need to do "easy_install pip".
 
 Next we update the "distribute" package:
 
 > pip install --upgrade distribute
 
-Then we finally install VirtualEnv using "pip":
+We can now start from scratch and install Python 3 via Homebrew:
 
-> pip install virtualenvwrapper
+> brew install python3
+
+Again Homebrew says that it's installed Setuptools and Pip, here called "pip3".  Now we'll use this to update Python 3's version of "distribute":
+
+> pip3 install --upgrade distribute
+
+Then we finally install VirtualEnv using "pip".  On previous systems, I had done this step after installing Python 2, so I simply used "pip".  This time we'll try it using "pip3".
+
+> pip3 install virtualenvwrapper
 
 The above command should install VirtualEnv first, then "virtualenvwrapper", following the list of dependencies.  Then we create a base for storing all the environments (you can call this directory whatever you like, and it does not have to be a hidden directory):
 
@@ -107,9 +108,13 @@ And we add this to .bashrc with the following:
 
 export WORKON_HOME=$HOME/.virtualenvs
 
-We next source the virtualenvwrapper.sh script:
+We next source the virtualenvwrapper.sh script.  But this depends on the Python being used, so we need to set the environment variable in ~/.bashrc:
 
-> source /usr/local/share/python/virtualenvwrapper.sh
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+
+Then we source ~/.bashrc and do the following:
+
+> source /usr/local/bin/virtualenvwrapper.sh
 
 And we add
 
@@ -118,37 +123,17 @@ export PIP_RESPECT_VIRTUALENV=true
 
 to the .bashrc file and source it again.  Now we are free to create a virtual environment:
 
-> mkvirtualenv --no-site-packages scipy
+> mkvirtualenv --no-site-packages --python=/usr/local/bin/python scipy2
 
 And to switch it off, we write
 
 > deactivate
 
-After deactivating, we can now start from scratch and install Python 3.2 via Homebrew:
-
-> brew install python3
-
-Then we add
-
-export PATH=/usr/local/share/python3:$PATH
-
-to the .bashrc file and source it once again.  Homebrew also says that we have to finish linking Python 3.2:
-
-> brew link python3
-
-Now that we have Python 3.2 installed, we want to install a version of "pip" keyed to it.  Before we used "easy_install" to install "pip", but if we do that now, we'll be using the "easy_install" for Python 2.7.3.  So we need to make sure to use "easy_install3":
-
-> easy_install3 pip
-
-This installs a "pip-3.2" for Python 3.2, and now we'll use this to update Python 3.2's version of "distribute":
-
-> pip-3.2 install --upgrade distribute
-
-Finally we can make a virtual environment running Python 3.2:
+Finally we can make a virtual environment running Python 3:
 
 > mkvirtualenv --no-site-packages --python=/usr/local/bin/python3 scipy3
 
-That's the basic setup: we've installed both Python 2.7 and 3.2 via Homebrew, used "easy_install" for each to install a separate "pip" for each, and we installed "virtualenv" and "virtualenvwrapper" under 2.7.  Then we made a virtual environment "scipy" running 2.7, and another "scipy3" running 3.2.
+That's the basic setup: we've installed both Python 2 and 3 via Homebrew, which installed a separate "pip" for each, and we installed "virtualenv" and "virtualenvwrapper" under Python 3.  Then we made a virtual environment "scipy2" running Python 2, and another "scipy3" running Python 3.
 
 
 #########################################################
