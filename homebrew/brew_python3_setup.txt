@@ -139,14 +139,14 @@ That's the basic setup: we've installed both Python 2 and 3 via Homebrew, which 
 #########################################################
 Phase 2: Adding scientific packages
 
-We want to install NumPy, SciPy, Matplotlib, and IPython, to mention a few.  NumPy is the most fundamental, but it requires the gfortran compiler.  This can be installed via Homebrew:
+We want to install NumPy, SciPy, Matplotlib, and IPython, to mention a few.  NumPy is the most fundamental, but it requires the gfortran compiler.  This can be installed via Homebrew (but check first to see if this already exists in /usr/local/bin):
 
 > brew install gfortran
 
 The scientific packages are compiled differently for different versions of Python, so we can't install them once and expect them to work with both Python 2.7 and 3.2.  So we need to install each of them separately in each of the virtual environments.  We'll start with the "scipy" environment to install NumPy for Python 2.7:
 
-> workon scipy
-(scipy)> pip install numpy
+> workon scipy2
+(scipy2)> pip install numpy
 
 We can check the installation:
 
@@ -164,22 +164,22 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 Etc.  But the test will fail if we don't install the latest version of the package "nose":
 
-(scipy)> pip install nose
+(scipy2)> pip install nose
 
 After that, NumPy should work fine.  Next we do exactly the same thing for Python 3.2 in our "scipy3" environment:
 
-(scipy)> workon scipy3
+(scipy2)> workon scipy3
 (scipy3)> pip install nose
 (scipy3)> pip install numpy
 
 That can be checked in the same way as above, and it should work fine.  Next we want to follow a parallel procedure with SciPy.  So we go back to the "scipy" environment to install SciPy for Python 2.7:
 
-(scipy3)> workon scipy
-(scipy)> pip install scipy
+(scipy3)> workon scipy2
+(scipy2)> pip install scipy
 
 Then we can check the installation as above, opening the Python interpreter, importing "scipy", looking at the version, checking the file, and running the tests.  We might try a similar thing for Python 3.2:
 
-(scipy)> workon scipy3
+(scipy2)> workon scipy3
 (scipy3)> pip install scipy
 
 ... but THAT DOES NOT WORK!  We run into an error, which luckily enough is the subject of this GitHub bug report:
@@ -192,14 +192,34 @@ The upshot of that is that we need to get the bleeding-edge version of SciPy str
 
 Then that should work fine, which we can check by running the tests from the Python interpreter.  WARNING: there will be a *lot* of failed tests.  So when I say the above works, that comes with a caveat: it "seems" to work, but it may actually give INCORRECT RESULTS in some circumstances.  But I'm not sure how to improve that without contributing to the SciPy project myself, and my skills definitely are not at that level... (yet?).
 
-Now we can move on to Matplotlib.  This of course doesn't work correctly either.  I honestly don't understand why this package has so many problems, especially since they seem to be similar to ones I encountered years ago.  But I shouldn't complain, since I'm sure it's a very hard package to write.  At any rate, a simple "pip install matplotlib" will result in errors, and so we need to use the version from GitHub:
+Now we can move on to Matplotlib.  This of course doesn't work correctly either.  I honestly don't understand why this package has so many problems, especially since they seem to be similar to ones I encountered years ago.  But I shouldn't complain, since I'm sure it's a very hard package to write.  At any rate, a simple "pip install matplotlib" will result in errors.  Before I've tried to pull from GitHub:
 
-> workon scipy
-(scipy)> pip install git+https://github.com/matplotlib/matplotlib.git
+> workon scipy2
+(scipy3)> pip install git+https://github.com/matplotlib/matplotlib.git
 
-That should work, and we can check it in the same way as above.  So we do the same for Python 3.2:
+But now new errors occur.  The following StackOverflow thread,
 
-(scipy)> workon scipy3
+http://stackoverflow.com/questions/12910126/errors-installing-matplotlib-clang
+
+suggests the following remedy:
+
+> brew install freetype
+> brew install libpng
+> brew link freetype
+> pip install git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib-dev
+
+So we'll try that, but first
+
+(scipy2)> deactivate
+> brew install freetype
+> brew install libpng
+> brew link freetype
+> workon scipy2
+(scipy2)> pip install git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib-dev
+
+That should work, and we can check it in the same way as above.  So we do the same for Python 3:
+
+(scipy2)> workon scipy3
 (scipy3)> pip install git+https://github.com/matplotlib/matplotlib.git
 
 That too should go through without a problem, and we check it as above.
