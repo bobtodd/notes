@@ -1,0 +1,470 @@
+My Python Installation Summary
+
+##################################
+### Some New Preliminary Notes ###
+##################################
+
+It turns out that there is a new version of VirtualEnv which supports Python 3, called VirtualEnv3.  But VirtualEnvWrapper uses the setup-egg formalism of Python 2 and easy_install, which Python 3 and pip don't support.  So to set up VirtualEnvWrapper, one needs Python 2, whether one wants it or not.
+
+Moreover, Homebrew's Doctor now says that it is unnecessary to place
+
+/usr/local/share/python3
+
+in the PATH, since all packages are now installed in /usr/local/bin.  However, if you look at the contents of this directory after installing Python 3 via Homebrew, you'll find
+
+12:10 PM lrcbt:Desktop> ls /usr/local/share/python3/
+easy_install      easy_install-3.3
+
+So I don't really know what to make of that.
+
+Finally, the command
+
+> brew install python
+
+gives the error
+
+11:12 AM lrcbt:Desktop> brew install python
+==> Downloading http://www.python.org/ftp/python/2.7.5/Python-2.7.5.tar.bz2
+Already downloaded: /Library/Caches/Homebrew/python-2.7.5.tar.bz2
+==> ./configure --prefix=/usr/local/Cellar/python/2.7.5 --enable-ipv6 --datarootdir=/usr/local/Cellar/python/2.7.5/share --datadir=/usr/local/Cellar/python/2.7.
+==> make
+running build
+running build_ext
+building dbm using ndbm
+error: /usr/include/zlib.h: No such file or directory
+make: *** [sharedmods] Error 1
+
+READ THIS: https://github.com/mxcl/homebrew/wiki/troubleshooting
+
+These open issues may also help:
+    https://github.com/mxcl/homebrew/pull/20470
+    https://github.com/mxcl/homebrew/issues/16303
+    https://github.com/mxcl/homebrew/issues/20580
+    https://github.com/mxcl/homebrew/issues/20809
+    https://github.com/mxcl/homebrew/pull/21406
+    https://github.com/mxcl/homebrew/issues/21640
+    https://github.com/mxcl/homebrew/issues/20591
+    https://github.com/mxcl/homebrew/issues/21013
+11:12 AM lrcbt:Desktop>
+
+I should note that, at the moment, I'm trying this installation on Mac OS 10.8.
+
+If we take a look at this Homebrew issue on GitHub,
+
+https://github.com/mxcl/homebrew/issues/20431
+
+we see that it's known that sometimes Homebrew has trouble finding the header file zlib.h.  New the bottom of the thread, we find the comment
+
+"I bumped into a similar (the same?) problem setting up a handful of clean 10.8.4 (current Mountain Lion) macs. Homebrew can't find zlib.h with just Xcode 4.6.3 installed. Command line tools must be installed to populate /usr/include. Without that, python fails here:"
+
+and this lists the error encountered above.  So the solution *should* be to install the Command Line Tools from Xcode, and then retry the install.  We'll see...
+
+##################################
+### End New Preliminary Notes  ###
+##################################
+
+
+#########################################################
+Phase 1: Getting the Pythons Working
+
+We start with the Mac OS Lion System Python, which happens to be Python 2.7.1.  On top of that we add Homebrew's normal Python installation (now Python 2.7.3):
+
+> brew install python
+
+Then we add /usr/local/share/python to the PATH in .bashrc and source the file:
+
+export PATH=/usr/local/share/python:$PATH
+> source ~/.bashrc
+
+Next we install "pip" via "easy_install":
+
+> easy_install pip
+
+At this point the "easy_install" should be keyed to Homebrew's Python 2.7, so that "pip" will use Homebrew's install of Python 2.7 as its default.
+
+Next we update the "distribute" package:
+
+> pip install --upgrade distribute
+
+Then we finally install VirtualEnv using "pip":
+
+> pip install virtualenvwrapper
+
+The above command should install VirtualEnv first, then "virtualenvwrapper", following the list of dependencies.  Then we create a base for storing all the environments (you can call this directory whatever you like, and it does not have to be a hidden directory):
+
+> mkdir ~/.virtualenvs
+
+And we add this to .bashrc with the following:
+
+export WORKON_HOME=$HOME/.virtualenvs
+
+We next source the virtualenvwrapper.sh script:
+
+> source /usr/local/share/python/virtualenvwrapper.sh
+
+And we add
+
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
+export PIP_RESPECT_VIRTUALENV=true
+
+to the .bashrc file and source it again.  Now we are free to create a virtual environment:
+
+> mkvirtualenv --no-site-packages scipy
+
+And to switch it off, we write
+
+> deactivate
+
+After deactivating, we can now start from scratch and install Python 3.2 via Homebrew:
+
+> brew install python3
+
+Then we add
+
+export PATH=/usr/local/share/python3:$PATH
+
+to the .bashrc file and source it once again.  Homebrew also says that we have to finish linking Python 3.2:
+
+> brew link python3
+
+Now that we have Python 3.2 installed, we want to install a version of "pip" keyed to it.  Before we used "easy_install" to install "pip", but if we do that now, we'll be using the "easy_install" for Python 2.7.3.  So we need to make sure to use "easy_install3":
+
+> easy_install3 pip
+
+This installs a "pip-3.2" for Python 3.2, and now we'll use this to update Python 3.2's version of "distribute":
+
+> pip-3.2 install --upgrade distribute
+
+Finally we can make a virtual environment running Python 3.2:
+
+> mkvirtualenv --no-site-packages --python=/usr/local/bin/python3 scipy3
+
+That's the basic setup: we've installed both Python 2.7 and 3.2 via Homebrew, used "easy_install" for each to install a separate "pip" for each, and we installed "virtualenv" and "virtualenvwrapper" under 2.7.  Then we made a virtual environment "scipy" running 2.7, and another "scipy3" running 3.2.
+
+
+#########################################################
+Phase 2: Adding scientific packages
+
+We want to install NumPy, SciPy, Matplotlib, and IPython, to mention a few.  NumPy is the most fundamental, but it requires the gfortran compiler.  This can be installed via Homebrew:
+
+> brew install gfortran
+
+The scientific packages are compiled differently for different versions of Python, so we can't install them once and expect them to work with both Python 2.7 and 3.2.  So we need to install each of them separately in each of the virtual environments.  We'll start with the "scipy" environment to install NumPy for Python 2.7:
+
+> workon scipy
+(scipy)> pip install numpy
+
+We can check the installation:
+
+(scipy)09:27 AM mbpbt:Desktop> python
+Python 2.7.3 (default, Jul  9 2012, 12:30:26) 
+[GCC 4.2.1 Compatible Apple Clang 3.1 (tags/Apple/clang-318.0.58)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import numpy
+>>> print numpy.__version__
+1.6.2
+>>> print numpy.__file__
+/Users/bobtodd/.virtualenvs/scipy/lib/python2.7/site-packages/numpy/__init__.pyc
+>>> numpy.test()
+...
+
+Etc.  But the test will fail if we don't install the latest version of the package "nose":
+
+(scipy)> pip install nose
+
+After that, NumPy should work fine.  Next we do exactly the same thing for Python 3.2 in our "scipy3" environment:
+
+(scipy)> workon scipy3
+(scipy3)> pip install nose
+(scipy3)> pip install numpy
+
+That can be checked in the same way as above, and it should work fine.  Next we want to follow a parallel procedure with SciPy.  So we go back to the "scipy" environment to install SciPy for Python 2.7:
+
+(scipy3)> workon scipy
+(scipy)> pip install scipy
+
+Then we can check the installation as above, opening the Python interpreter, importing "scipy", looking at the version, checking the file, and running the tests.  We might try a similar thing for Python 3.2:
+
+(scipy)> workon scipy3
+(scipy3)> pip install scipy
+
+... but THAT DOES NOT WORK!  We run into an error, which luckily enough is the subject of this GitHub bug report:
+
+https://github.com/scipy/scipy/pull/174
+
+The upshot of that is that we need to get the bleeding-edge version of SciPy straight from the GitHub repository:
+
+(scipy3)> pip install git+https://github.com/scipy/scipy.git
+
+Then that should work fine, which we can check by running the tests from the Python interpreter.  WARNING: there will be a *lot* of failed tests.  So when I say the above works, that comes with a caveat: it "seems" to work, but it may actually give INCORRECT RESULTS in some circumstances.  But I'm not sure how to improve that without contributing to the SciPy project myself, and my skills definitely are not at that level... (yet?).
+
+Now we can move on to Matplotlib.  This of course doesn't work correctly either.  I honestly don't understand why this package has so many problems, especially since they seem to be similar to ones I encountered years ago.  But I shouldn't complain, since I'm sure it's a very hard package to write.  At any rate, a simple "pip install matplotlib" will result in errors, and so we need to use the version from GitHub:
+
+> workon scipy
+(scipy)> pip install git+https://github.com/matplotlib/matplotlib.git
+
+That should work, and we can check it in the same way as above.  So we do the same for Python 3.2:
+
+(scipy)> workon scipy3
+(scipy3)> pip install git+https://github.com/matplotlib/matplotlib.git
+
+That too should go through without a problem, and we check it as above.
+
+
+#############################################################
+Phase 3: Adding IPython
+
+Next we move on to IPython, which is the most delicate issue of all.  First we try for Python 2.7:
+
+> workon scipy
+(scipy)> pip install ipython
+
+... and similarly for Python 3.2:
+
+(scipy)> workon scipy3
+(scipy3)> pip install ipython
+
+which should go through without a hassle.  Note that the commands will be different between the two versions: you'll have the command "ipython" for the IPython compiled with Python 2.7, and you'll have the command "ipython3" for the IPython compiled with Python 3.2.  But you need to be in the proper environment to use them:
+
+> workon scipy
+(scipy)> ipython 
+Python 2.7.3 (default, Jul  9 2012, 12:30:26) 
+Type "copyright", "credits" or "license" for more information.
+
+IPython 0.13 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: exit
+(scipy)01:09 PM mbpbt:Desktop> workon scipy3
+(scipy3)01:09 PM mbpbt:Desktop> ipython3 
+Python 3.2.3 (default, Jul  9 2012, 14:35:42) 
+Type "copyright", "credits" or "license" for more information.
+
+IPython 0.13 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: exit
+(scipy3)01:09 PM mbpbt:Desktop> 
+
+Now that I think about it, however, maybe that's something I should change.  Ultimately.... hmmm.... yes.  IPython is a Python IDE, not a "scientific package" per se (rather a Python IDE really tweaked out to do science).  In that sense, it seems more logical to compile it outside of any of the virtual environments "scipy" or "scipy3".
+
+Although things will run as I've installed them above (that is, the various IPython's will run in their respective environments), problems occur when I try to get IPython running with the QtConsole.  The basic procedure I've followed is this: first deactivate the virtual environment if I'm in one, and then use Homebrew to install Qt:
+
+(scipy)> deactivate
+> brew install qt
+> brew link qt
+> brew install pyqt
+
+After the last line, PyQt is installed in /usr/local/lib/python2.7/site-packages, so that we need to include the line
+
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+in the .bashrc file and source it.  Then we continue by installing ZeroMQ with Homebrew:
+
+> brew install zmq
+
+This gives a note to Rubyists: To install the zmq gem on 10.6 with the system Ruby on a 64-bit machine,
+you may need to do:
+
+    ARCHFLAGS="-arch x86_64" gem install zmq -- --with-zmq-dir=/usr/local
+
+But I don't really know what to make of that right now, and since we're only dealing with Python at the moment, we can leave that aside.
+
+Then we continue with some further packages installed by "pip".  Since those are proper to Python, and "pip" is keyed to a specific version, I descended into a virtual environment:
+
+> workon scipy
+(scipy)> pip install pyzmq
+(scipy)> pip install pygments
+
+That's supposed to do it.  Then I just run the command
+
+(scipy)> ipython qtconsole --pylab=inline
+
+But that actually won't work until I add the line
+
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+to my .bashrc and source it.  Then the command works as advertised, opening a separate window and everything.  It's actually really nice.
+
+But if I try the same procedure in my "scipy3" environment with Python 3.2, it doesn't work.  I can install "pyzmq" and "pygments":
+
+> workon scipy3
+(scipy3)> pip install pyzmq
+(scipy3)> pip install pygments
+
+But when I try
+
+(scipy3)> ipython3 qtconsole --pylab=inline
+
+then I just get a host of errors, all culminating in "ImportError: Cannot import PySide >= 1.0.3 or PyQt4 >= 4.7".  I think ultimately it's that Qt and PyQt were installed with Python 2.7, and so Python 3.2 can't find them; if I switch between orders of putting either
+
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+or
+
+export PYTHONPATH=/usr/local/lib/python3.2/site-packages:$PYTHONPATH
+
+first in .bashrc (thereby changing which site-packages directory, that for 3.2 or 2.7, is seen first), then with one works or the other, but not both.  Or closer to the truth, only "ipython" works and never "ipython3", but if I change the order, not even "ipython" works.  So clearly the way things are installed now is untenable.
+
+I think ultimately the thing to do is to try to install IPython outside of the virtual environments, where I've also installed Qt and PyQt.  But I need to see if there's a way to have PyQt install with Python 3.2 separately.  Then I should "pip install pyzmq" and "pip install pygments", as well as "pip-3.2 install pyzmq" and "pip-3.2 install pygments".  Perhaps that will straighten things out, if by doing nothing other than taking "virtualenv" out of the loop.
+
+
+#############################################################
+Discussion
+
+In the meantime, I've found some nice resources on this issue.  This blogpost:
+
+http://isbullsh.it/2012/04/Embed-ipython-in-virtualenv/
+
+discusses the issue of changing the start-up script of IPython (installed *outside* of any virtual environment) so that it looks at the virtual environments and loads only the proper site-packages.  Perhaps the most interesting part of that post is that Thomas Kluyver, an IPython contributor, has a comment at the end that says
+
+"IPython 0.13 will attempt to respect virtualenvs without you having to do anything (though installing inside the virtualenv is still recommended to get advanced virtualenv features working)."
+
+That's pretty neat.
+
+The post is based on a more thorough explanation here:
+
+http://igotgenes.blogspot.fr/2010/01/interactive-sandboxes-using-ipython.html
+
+though the post is a bit older and pertains to an older version of IPython.  This post is in turn based on the following:
+
+http://blog.ufsoft.org/2009/1/29/ipython-and-virtualenv
+
+which espouses the same method, more or less.  But in the IPython FAQ:
+
+http://ipython.org/faq.html
+
+they give a simpler solution, which is just to change IPython's own start-up script so that the she-bang no longer has a hard PATH to the Python version used to compile it, but rather uses the line
+
+#!/usr/bin/env python
+
+This, then, should pick up the environment settings from the particular Python being used in the virtual environment.  But I think finally the last best word I've read on all of this is the following:
+
+http://scipy2010.blogspot.com/2010/06/scipy-2010-basic-tutorials-ipython-and.html
+
+The author points out that the above edit will get lost when updating IPython to a newer version, and so the simplest of all solutions is invoking IPython as a parameter fed through the "python" command itself.  Since it will get tedious to type that all the time, the author suggests aliasing:
+
+alias ipython='python /usr/bin/ipython'
+
+or whatever the path to IPython is.  This of course assumes that IPython is installed outside of any virtual environment.
+
+
+#############################################################
+Summary
+
+I think for the moment I'll leave my installation as it is: with an IPython running Python 2.7 in the "scipy" environment and an IPython running Python 3.2 in the "scipy3" environment.  At this point PyQt is installed via Homebrew, *outside* of any virtual environment, and so the IPython's in the virtual environments have a hard time finding it.  So I'll need to keep the line
+
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+in my .bashrc file until I find a workaround.  But unfortunately, if I leave this line uncommented in my .bashrc, this gives me trouble when I try to run "ipython3" (even without QtConsole) in the "scipy3" environment: evidently it finds the Python 2.7 "distribute" and not the Python 3.2 "distribute", and this causes a failure.
+
+As a side-note, this blogpost
+
+http://blog.adamdklein.com/?p=416
+
+explains a more hands-on installation procedure in the context of Ubuntu linux, but one useful bit for the above discussion is he shows how to install "sip" and "pyqt" using "pip", even though "pip" fails.  Specifically, he uses "pip" to download the source (it seems), then he descends into the required directories and uses "make" to build them by hand.  That actually might be a good workaround for me in each of my virtual environments.  Then I could potentially run IPython with either Python 2.7 or 3.2 and a QtConsole.  That would be excellent.  Then I could simply try an alias:
+
+alias ipyqt='workon scipy; ipython qtconsole --pylab=inline'
+alias ipyqt3='workon scipy3; ipython3 qtconsole --pylab=inline'
+
+That might be the best way to go about it.
+
+
+#############################################################
+Addendum 1
+
+One other nice feature comes from installing "tornado" via "pip" in my "scipy" environment, namely I can use an IPython notebook in a web browser.  In particular, I do
+
+> workon scipy
+(scipy)> pip install tornado
+
+and then
+
+(scipy)> ipython notebook --pylab=inline
+
+This will open Safari with a new tab showing an IPython notebook.  If it doesn't come up automatically, I can point my browser to http://localhost:8888/ (what appears in Safari is actually http://127.0.0.1:8888/).  The output at the command line actually mentions where to direct the browser.
+
+Note: Now I've actually defined two aliases in my .bashrc:
+
+alias ipythonq='export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH; ipython qtconsole --pylab=inline; export PYTHONPATH=${PYTHONPATH/\/usr\/local\/lib\/python2.7\/site-packages}'
+alias ipythonn='export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH; ipython notebook --pylab=inline; export PYTHONPATH=${PYTHONPATH/\/usr\/local\/lib\/python2.7\/site-packages}'
+
+These insert '/usr/local/lib/python2.7/site-packages' in the PYTHONPATH only when starting an IPython QtConsole or Notebook, and then they remove that directory from the PYTHONPATH when the program terminates, since otherwise "ipython3" won't work in the "scipy3" environment.
+
+#############################################################
+Addendum 2
+
+Now I've tried to install Basemap, one of the Matplotlib toolkits.  This *only* works with Python 2, *not* Python 3.  Moreover, as you'll see from the installation procedure, I need to eventually include the line
+
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+in my .bashrc.  This of course means that all of my Python 3 packages will have problems in my "scipy3" environment, so I'll have to comment this out when I'm not using Basemap.
+
+The official installation instructions are to be found here:
+
+http://matplotlib.github.com/basemap/users/installing.html
+
+but these require the setting of the GEOS_DIR, and I also need to know where Basemap will install to.  But since this is a speculative install, let's say, I want to install into a virtual environment, namely my "scipy" environment.  Luckily I found a blogpost here
+
+http://petrush-collectednotes.blogspot.com/2012/05/installing-python-environment-through.html
+
+where the author gives a succinct but useful explanation of how to install with a combination of Homebrew and "pip".  By activating my "scipy" environment before going through the procedure, "pip" will automatically install in the directories appropriate to my "scipy" environment, and so all should be taken care of.
+
+Many of the packages I'm unfamiliar with, so I pretty much followed the procedure verbatim:
+
+> workon scipy
+(scipy)> brew install geos
+(scipy)> brew install jpeg
+
+This last command actually comes back with "Error: jpeg-8d already installed", so evidently it's unnecessary.  Continuing,
+
+(scipy)> brew install netcdf
+(scipy)> brew install gdal
+
+Note that many of these command install dependencies, and it's worth noting them down so that they can be uninstalled if we want to get rid of Basemap and everything we installed to get it running later on.
+
+This last command gives the following output:
+
+"This version of GDAL was built with Python support.  In addition to providing
+modules that makes GDAL functions available to Python scripts, the Python
+binding provides ~18 additional command line tools.
+
+Unless you are using Homebrew's Python, both the bindings and the
+additional tools will be unusable unless the following directory is added to
+the PYTHONPATH:
+
+    /usr/local/lib/python2.7/site-packages
+"
+
+This is what necessitates adding the above export line to .bashrc:
+
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+After adding that to .bashrc, we source the file... and incidentally we then have to activate once again the "scipy" environment:
+
+(scipy)> source ~/.bashrc
+> workon scipy
+(scipy)> pip install jpeg
+
+The last command above actually gives the error "Could not find any downloads that satisfy the requirement jpeg", so I just moved on:
+
+(scipy)> pip install pil
+(scipy)> pip install netCDF4
+(scipy)> pip install shapely
+
+Finally, we install Basemap directly from the GitHub repository.  Have patience: the repository is on the order of 150 MB, so the download will take a *long* time (and "pip" doesn't give a progress bar, so it just looks like it's stalled).  We do this as follows:
+
+(scipy)> pip install git+https://github.com/matplotlib/basemap.git
+
+This should work.  If you can navigate to the Basemap source directory (I had already downloaded a copy to my Desktop before I realized I should just try to install from GitHub directly), then you can run the simpletest.py script to see if it works:
+
+(scipy)> cd ~/Desktop/basemap-1.0.4/examples/
+(scipy)> python simpletest.py
+
+That worked for me, in the sense that it produced an image.  The Terminal output also produced an error message, but at least it didn't seem fatal... yet.
