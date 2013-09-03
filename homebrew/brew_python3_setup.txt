@@ -6,6 +6,12 @@ My Python Installation Summary
 
 It turns out that there is a new version of VirtualEnv which supports Python 3, called VirtualEnv3.  But VirtualEnvWrapper uses the setup-egg formalism of Python 2 and easy_install, which Python 3 and pip don't support.  So to set up VirtualEnvWrapper, one needs Python 2, whether one wants it or not.
 
+Ah, but there's an added twist.  The following page
+
+https://pypi.python.org/pypi/virtualenv3
+
+says that VirtualEnv now has native support for Python 3.  But it needs to be compiled using Python 3.  I'm not sure how that works with a system running both Python 2 and Python 3.
+
 Moreover, Homebrew's Doctor now says that it is unnecessary to place
 
 /usr/local/share/python3
@@ -76,11 +82,14 @@ Then we add /usr/local/share/python to the PATH in .bashrc and source the file:
 export PATH=/usr/local/share/python:$PATH
 > source ~/.bashrc
 
-Next we install "pip" via "easy_install":
+# NB: Homebrew now states that Setuptools and Pip have been installed.  So the next step appears to be unnecessary.
 
-> easy_install pip
-
-At this point the "easy_install" should be keyed to Homebrew's Python 2.7, so that "pip" will use Homebrew's install of Python 2.7 as its default.
+#Next we install "pip" via "easy_install":
+#
+#> easy_install pip
+#
+#At this point the "easy_install" should be keyed to Homebrew's Python 2.7, so that "pip" #will use Homebrew's install of Python 2.7 as its default.
+#
 
 Next we update the "distribute" package:
 
