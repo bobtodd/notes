@@ -446,6 +446,22 @@ https://github.com/ipython/ipython/issues/2679/
 
 It seems that I was right in thinking that, if Homebrew uses Python 2 to compile PyQt4, then that PyQt4 won't work for IPython QtConsole using Python 3.  It needs to be compiled again, separately, with Python 3 and put in a place that IPython can find it.  I'm not yet sure how to do that via Homebrew, and it's not so critical (yet!) that I want to do it the "old fashioned" way, without Homebrew.
 
+Ah, a little more searching turns up this:
+
+http://stackoverflow.com/questions/18175601/ipython-qtconsole-cannot-find-installed-pyqt-homebrew
+
+So I need to run
+
+> brew install pyqt --with-python3
+> brew reinstall sip --with-python3
+
+to compile with Python 3.  When I run the first command, however, I get the following:
+
+09:13 AM lrcbt:~> brew install pyqt --with-python3
+Warning: pyqt-4.10.3 already installed
+
+I figure I need to do "brew reinstall", etc.  But then my guess is that this will replace the current PyQt installation compiled under Python 2, and so then IPython QtConsole will crash under Python 2.  So I'll wait to do this additional step until I really have a strong urge to pass everything to Python 3.
+
 #############################################################
 Addendum 2
 
