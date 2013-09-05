@@ -231,12 +231,16 @@ Phase 3: Adding IPython
 Next we move on to IPython, which is the most delicate issue of all.  First we try for Python 2.7:
 
 > workon scipy
-(scipy)> pip install ipython
+(scipy)> pip install ipython[all]
 
-... and similarly for Python 3.2:
+Note that it's important to add the "[all]" option.  Without this, IPython will not have some optional packages, such as "jinja2", which are necessary for running the IPython Notebood.  See the following web page:
+
+http://ipython.org/ipython-doc/stable/install/install.html
+
+Similarly for Python 3.2:
 
 (scipy)> workon scipy3
-(scipy3)> pip install ipython
+(scipy3)> pip install ipython[all]
 
 which should go through without a hassle.  Note that the commands will be different between the two versions: you'll have the command "ipython" for the IPython compiled with Python 2.7, and you'll have the command "ipython3" for the IPython compiled with Python 3.2.  But you need to be in the proper environment to use them:
 
@@ -414,6 +418,33 @@ alias ipythonq='export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHON
 alias ipythonn='export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH; ipython notebook --pylab=inline; export PYTHONPATH=${PYTHONPATH/\/usr\/local\/lib\/python2.7\/site-packages}'
 
 These insert '/usr/local/lib/python2.7/site-packages' in the PYTHONPATH only when starting an IPython QtConsole or Notebook, and then they remove that directory from the PYTHONPATH when the program terminates, since otherwise "ipython3" won't work in the "scipy3" environment.
+
+I've tried the same trick with Python 3 as well, putting the lines
+
+alias ipythonq3='export PYTHONPATH=/usr/local/lib/python3.3/site-packages:$PYTHONPATH; ipython3 qtconsole --pylab=inline; export PYTHONPATH=${PYTHONPATH/\/usr\/local\/lib\/python3.3\/site-packages}'
+alias ipythonn3='export PYTHONPATH=/usr/local/lib/python3.3/site-packages:$PYTHONPATH; ipython3 notebook --pylab=inline; export PYTHONPATH=${PYTHONPATH/\/usr\/local\/lib\/python3.3\/site-packages}'
+
+in my .bashrc as well.  It seems that this works for the IPython Notebook.  However for the QtConsole it fails, with an error similar to what I had been receiving earlier when I had installed Qt5 and PyQt5 (compiled with Python 3):
+
+ImportError: 
+    Could not load requested Qt binding. Please ensure that
+    PyQt4 >= 4.7 or PySide >= 1.0.3 is available,
+    and only one is imported per session.
+
+    Currently-imported Qt library:   None
+    PyQt4 installed:                 False
+    PySide >= 1.0.3 installed:       False
+    Tried to load:                   ['pyside', 'pyqt']
+    
+(scipy3)08:53 AM lrcbt:~> 
+
+So it seems that'll take so more thought, but I'm going to leave it this way for the moment.  Currently I'm more interested in the Notebook than in the QtConsole.
+
+After a little searching on the web, I found a discussion of the problem:
+
+https://github.com/ipython/ipython/issues/2679/
+
+It seems that I was right in thinking that, if Homebrew uses Python 2 to compile PyQt4, then that PyQt4 won't work for IPython QtConsole using Python 3.  It needs to be compiled again, separately, with Python 3 and put in a place that IPython can find it.  I'm not yet sure how to do that via Homebrew, and it's not so critical (yet!) that I want to do it the "old fashioned" way, without Homebrew.
 
 #############################################################
 Addendum 2
