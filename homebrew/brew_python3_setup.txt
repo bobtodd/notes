@@ -287,6 +287,40 @@ The sip-dir for Python 3.x is /usr/local/share/sip3.
 
 But from the compilation sequence, this only calls python2.  So I'm not sure what's going to happen with python3 and ipython3 later on.
 
+## Added note (2013/10/31) on upgrading to Mavericks: check the Github gist here:
+
+https://github.com/mxcl/homebrew/pull/23793
+
+which reports numerous problems of Qt not building on OS 10.9.  In the present case, the errors I received were as follows:
+
+>>>
+01:01 PM lrcbt:Desktop> brew install qt
+==> Downloading http://download.qt-project.org/official_releases/qt/4.8/4.8.5/qt-everywhere-opensource-src-4.8.5.tar.gz
+######################################################################## 100.0%
+==> ./configure -prefix /usr/local/Cellar/qt/4.8.5 -system-zlib -confirm-license -opensource -nomake demos -nomake examples -cocoa -fast -release -no-3dnow -pla
+==> make
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[3]: *** [../../../../../../lib/QtWebKit.framework/QtWebKit] Error 1
+make[2]: *** [release] Error 2
+make[1]: *** [sub-WebKit-qt-QtWebKit-pro-make_default-ordered] Error 2
+make: *** [sub-webkit-make_default-ordered] Error 2
+
+READ THIS: https://github.com/mxcl/homebrew/wiki/troubleshooting
+
+These open issues may also help:
+    https://github.com/mxcl/homebrew/pull/22283
+    https://github.com/mxcl/homebrew/pull/23783
+    https://github.com/mxcl/homebrew/issues/23480
+>>>
+
+The link to https://github.com/mxcl/homebrew/pull/23793 seems to be the culmination of the links suggested in the error output, and as of this addition to these notes, it's still being actively patched.
+
+The result of the gist is to instead use the following command:
+
+> brew install -v https://raw.github.com/cliffrowley/homebrew/patched_qt_ssse3/Library/Formula/qt.rb --HEAD
+
+## End added note
+
 Then we continue by installing ZeroMQ with Homebrew:
 
 > brew install zmq
