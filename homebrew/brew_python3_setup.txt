@@ -148,6 +148,50 @@ The scientific packages are compiled differently for different versions of Pytho
 > workon scipy2
 (scipy2)> pip install numpy
 
+## Note: it seems that now both NumPy and SciPy support both Python 2.x and 3.x.
+##   See this note: 
+##     http://www.scipy.org/scipylib/faq.html#do-numpy-and-scipy-support-python-3-x
+## So it might be worth just installing once, outside of virtual environments.
+## According to this:
+##   http://matplotlib.org/users/whats_new.html#python-3-x-support
+## matplotlib also supports Python 3.x, and Python 2.x after 2.6.
+##
+## As an added, unrelated footnote, matplotlib also has the ability to export figures
+## as drawing commands for PdfLaTex, LuaTeX, or XeLaTeX:
+##   http://matplotlib.org/users/whats_new.html#pgf-tikz-backend
+##
+## Unfortunately if I do
+##
+## 10:30 AM lrcbt:Desktop> pip3 install numpy
+##
+## Then I get errors
+##
+## (scipy2)10:37 AM lrcbt:Desktop> python
+## Python 2.7.5 (default, Oct 31 2013, 12:34:52) 
+## [GCC 4.2.1 Compatible Apple LLVM 5.0 (clang-500.2.79)] on darwin
+## Type "help", "copyright", "credits" or "license" for more information.
+## >>> import numpy as np
+## Traceback (most recent call last):
+##   File "<stdin>", line 1, in <module>
+## ImportError: No module named numpy
+## >>> exit()
+##
+## and
+##
+## (scipy3)10:37 AM lrcbt:Desktop> python
+## Python 3.3.2 (default, Oct 31 2013, 12:44:40) 
+## [GCC 4.2.1 Compatible Apple LLVM 5.0 (clang-500.2.79)] on darwin
+## Type "help", "copyright", "credits" or "license" for more information.
+## >>> import numpy as np
+## Traceback (most recent call last):
+##   File "<stdin>", line 1, in <module>
+## ImportError: No module named 'numpy'
+## >>> exit()
+##
+## even if I create the scipy2 and scipy3 environments after installing NumPy globally.
+##
+## Perhaps it's better just to stick with separate installs in separate environments.
+
 We can check the installation:
 
 (scipy)09:27 AM mbpbt:Desktop> python
@@ -182,7 +226,13 @@ Then we can check the installation as above, opening the Python interpreter, imp
 (scipy2)> workon scipy3
 (scipy3)> pip install scipy
 
-... but THAT DOES NOT WORK!  We run into an error, which luckily enough is the subject of this GitHub bug report:
+... but THAT DOES NOT WORK!
+
+## NB: It does seem to work now, as of version 0.13.0
+##   You can simply use the command
+##   > pip install scipy
+
+We run into an error, which luckily enough is the subject of this GitHub bug report:
 
 https://github.com/scipy/scipy/pull/174
 
@@ -217,6 +267,13 @@ So we'll try that, but first
 > workon scipy2
 (scipy2)> pip install git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib-dev
 
+## NB: Now it seems that
+##   > pip install matplotlib
+## will install without errors.  It says it installs the following packages
+##   matplotlib python-dateutil tornado pyparsing six
+##
+## Apparently no need to add extra packages with Homebrew.
+
 That should work, and we can check it in the same way as above.  So we do the same for Python 3:
 
 (scipy2)> workon scipy3
@@ -233,7 +290,7 @@ Next we move on to IPython, which is the most delicate issue of all.  First we t
 > workon scipy
 (scipy)> pip install ipython[all]
 
-Note that it's important to add the "[all]" option.  Without this, IPython will not have some optional packages, such as "jinja2", which are necessary for running the IPython Notebood.  See the following web page:
+Note that it's important to add the "[all]" option.  Without this, IPython will not have some optional packages, such as "jinja2", which are necessary for running the IPython Notebook.  See the following web page:
 
 http://ipython.org/ipython-doc/stable/install/install.html
 
@@ -320,6 +377,28 @@ The result of the gist is to instead use the following command:
 > brew install -v https://raw.github.com/cliffrowley/homebrew/patched_qt_ssse3/Library/Formula/qt.rb --HEAD
 
 ## End added note
+
+## NB: Homebrew installation of PyQt fails because of compiler incompatibility:
+##
+##   Error: pyqt dependency sip was built with the following
+##   C++ standard library: libc++ (from clang)
+##  
+##   This is incompatible with the standard library being used
+##   to build pyqt: libstdc++ (from clang)
+##  
+##   Please reinstall sip using a compatible compiler.
+##   hint: Check https://github.com/mxcl/homebrew/wiki/C++-Standard-Libraries
+##
+##
+## Solution: see the link below
+##   https://gist.github.com/paulgribble/7291469
+## where the writer suggests modifying the file build.rb in Hombrew
+## by commenting out the line that checks compilers:
+##   stdlib_in_use = CxxStdlib.new(stdlibs.first, ENV.compiler)
+## then installing PyQt, and after that uncommenting the line once again.
+##
+## The specific file is
+##   /usr/local/Library/Homebrew/build.rb
 
 Then we continue by installing ZeroMQ with Homebrew:
 
