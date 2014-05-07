@@ -75,6 +75,8 @@ Phase 1: Getting the Pythons Working
 
 We start with the Mac OS Lion System Python, which happens to be Python 2.7.1.  On top of that we add Homebrew's normal Python installation (now Python 2.7.x):
 
+NB: See below.  As of 2014/05/07, there were errors that seem only to be avoided by building from source with the --build-from-source flag in the line below.
+
 > brew install python
 
 Then we add /usr/local/share/python to the PATH in .bashrc and source the file:
@@ -84,17 +86,53 @@ export PATH=/usr/local/share/python:$PATH
 
 NB: Homebrew now states that Setuptools and Pip have been installed.  So we do not need to do "easy_install pip".
 
+NB: Doing this procedure again (after removing all Homebrew Pythons with `brew uninstall python` and `brew uninstall python3`, the line `pip install --upgrade distribute` gives an error if we execute it right after installing Python.  According to
+
+http://stackoverflow.com/questions/23276866/python-pip-installation-error
+
+we should first upgrade Setuptools:
+
+> pip install --upgrade setuptools
+
+Then we upgrade Pip itself:
+
+> pip install --upgrade pip
+
 Next we update the "distribute" package:
 
-> pip install --upgrade distribute
+NB: As of OS X Mavericks and Pip 1.5.4-5, this seems to give an error "pkg_resources.DistributionNotFound: pip==1.5.4".  The following discussion on GitHub suggests building from source when installing Python:
+
+https://github.com/Homebrew/homebrew/issues/26900
+
+So let's try that:
+
+> brew uninstall python
+> brew install python --build-from-source
+> pip install --upgrade setuptools
+> pip install --upgrade pip
+
+NB: According to the notes here:
+
+http://pip.readthedocs.org/en/latest/installing.html#id8
+
+it seems that "distribute" is no longer necessary.  The latest Setuptools is sufficient by itself:
+
+######## Skip this line
+## > pip install --upgrade distribute
+########
 
 We can now start from scratch and install Python 3 via Homebrew:
 
-> brew install python3
+> brew install python3 --build-from-source
 
-Again Homebrew says that it's installed Setuptools and Pip, here called "pip3".  Now we'll use this to update Python 3's version of "distribute":
+Again Homebrew says that it's installed Setuptools and Pip, here called "pip3".  Now we'll use this to update Python 3's version of (Setuptools, Pip and) "distribute":
 
-> pip3 install --upgrade distribute
+> pip3 install --upgrade setuptools
+> pip3 install --upgrade pip
+
+######## Skip this line
+## > pip3 install --upgrade distribute
+########
 
 Then we finally install VirtualEnv using "pip".  On previous systems, I had done this step after installing Python 2, so I simply used "pip".  This time we'll try it using "pip3".
 
