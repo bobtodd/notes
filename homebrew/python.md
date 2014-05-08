@@ -50,7 +50,7 @@ to the `~/.bashrc` file.  Then I need to add the line (this must come *after* th
       then eval "$(pyenv init -)";
     fi
 
-to my `~/.bashrc` file.  Then we `source` it.
+to my `~/.bashrc` file.  (Beware: the order of the lines `export PYENV_ROOT` and `if which pyenv... fi` is important.  See [this issue report][pyenv-order].)  Then we `source` it.
 
     source ~/.bashrc
 
@@ -176,6 +176,7 @@ Crossing my fingers...
 [pyenvv]: https://github.com/yyuu/pyenv-virtualenv
 [pyenv-slide]: http://www.slideshare.net/MaximAvanov/python-developers-daily-routine-29426666
 [pyenv-global-error]: https://github.com/yyuu/pyenv/issues/145
+[pyenv-order]: https://github.com/yyuu/pyenv/issues/31
 [rvm]: https://rvm.io/
 [ipython]: http://ipython.org/
 [pip-v]: https://github.com/Homebrew/homebrew/issues/26900
