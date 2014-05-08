@@ -18,7 +18,7 @@ I've backed out of all my Homebrew-installed Pythons (`brew uninstall python` an
 
     brew install python --build-from-source
 
-Next, based on other [Pip installation errors][pip-i1] and comments [here][pip-i2, we no longer seem to need to upgrade the Distribute package; upgrading Setuptools is enough.  We follow that with an upgrade to Pip itself.
+Next, based on other [Pip installation errors][pip-i1] and comments [here][pip-i2], we no longer seem to need to upgrade the Distribute package; upgrading Setuptools is enough.  We follow that with an upgrade to Pip itself.
 
     pip install --upgrade setuptools
     pip install --upgrade pip
