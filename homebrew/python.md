@@ -36,7 +36,7 @@ That's just so that I can keep the system current and not have to mess around wi
 Pre-IPython Setup: Qt and the Gnashing of Teeth
 -----------------------------------------------
 
-I want to be able to use IPython both via the Qt Console and via Notebooks.  The real problem here has traditionally been compiling Qt on the machine: Homebrew installs Qt compiled against the Homebrew installed Python.
+I want to be able to use IPython both via the Qt Console and via Notebooks.  The real problem here has traditionally been compiling Qt on the machine: Homebrew installs Qt compiled against the Homebrew-installed Python.
 
     pyenv deactivate
     brew install qt --with-python3 --build-from-source
@@ -51,7 +51,7 @@ As one additional factor, if we try to install PySide in the `scipy2` virtual en
 
     brew install cmake
 
-This is mentioned in the [Pyside installation instructions][pyside], but only in one section on installing for Mac OS X, and not in a different Mac OS X installation section elsewhere on the page.  The explanation there doesn't mention anything about why `cmake` is required, nor why it should be installed to follow one installation method but not to follow another method.  Both methods use Homebrew and later `pip`, so nothing is being built by hand in either explanation.
+This is mentioned in the [Pyside installation instructions][pyside], but only in one section on installing for Mac OS X, and not in a different Mac OS X installation section elsewhere on the same page.  The explanation there doesn't mention anything about why `cmake` is required, nor why it should be installed to follow one installation method but not to follow another method.  Both methods use Homebrew and later `pip`, so nothing is being built by hand in either explanation.
 
 With any luck, that should do it.
 
@@ -159,7 +159,7 @@ These will also install `python-dateutil`, `tornado`, `pyparsing`, `pytz`, and `
 Setting up IPython
 ------------------
 
-Finally we come to the really important part of the installation process: IPython.  I'll tell you right now, IPython must be **pretty stinkin' cool** to warrant all the extra effort of getting this beast running in different virtual environments.  Yes, it's worth it.  But just barely, because the effort:success ratio of installing IPython in different virtual environments running variously Python 2.x and 3.x is frickin' astronomical.  This whole installation procedure would be done in half an hour if I weren't trying to install IPython.  But since I *am* trying to install it, the process drags on for days which I try to figure out what needs to be loaded before what, whether to load a particular package via `pip` in a virtual environment or via `brew` outside of all environments, whether general packages (outside of virtual environments) need to be compiled with Homebrew's `python` or `python3` -- or both! -- and so on.  Not even the `git` log file for these notes will show half of the permutations I've tried.  It's frustrating beyond words... thank goodness there's a reward at the end... *if* I can get it working.
+Finally we come to the really important part of the installation process: IPython.  I'll tell you right now, IPython must be **pretty stinkin' cool** to warrant all the extra effort of getting this beast running in different virtual environments.  Yes, it's worth it.  But just barely, because the effort:success ratio of installing IPython in different virtual environments running variously Python 2.x and 3.x is frickin' astronomical.  This whole installation procedure would be done in half an hour if I weren't trying to install IPython.  But since I *am* trying to install it, the process drags on for days, during which I try to figure out what needs to be loaded before what, whether to load a particular package via `pip` in a virtual environment or via `brew` outside of all environments, whether general packages (outside of virtual environments) need to be compiled with Homebrew's `python` or `python3` -- or both! -- and so on.  Not even the `git` log file for these notes will show half of the permutations I've tried.  It's frustrating beyond words... thank goodness there's a reward at the end... *if* I can get it working.
 
 ### The Python 3.4 Virtual Environment
 
@@ -169,7 +169,7 @@ Let's see what happens when we go back and try to get this to work for Python 3.
     pip install pyzmq
     pip install pygments
 
-Typically IPython has problems with the Qt Console.  When we seek to use the command `ipython qtconsole --pylab=inline`, IPython checks whether PyQt4 is installed or whether PySide is installed.  So I'm going to install PySide, just to see if IPython can find *one* of those packages and sort things out itself.  In fact, this would be the preferred way of installing a package telling IPython how to link with Qt, since this installs via `pip`, and it can therefore be keyed separately to Python 2.x or 3.x installations withing a virtual environment.  We'll see how it goes.
+Typically IPython has problems with the Qt Console.  When we seek to use the command `ipython qtconsole --pylab=inline`, IPython checks whether PyQt4 is installed or whether PySide is installed.  So I'm going to install PySide, just to see if IPython can find *one* of those packages and sort things out itself.  In fact, this would be the preferred way of installing a package telling IPython how to link with Qt, since this installs via `pip`, and it can therefore be keyed separately to Python 2.x or 3.x installations within a virtual environment.  We'll see how it goes.
 
 According to the [PySide installation guide][pyside], we need to run the following commands.
     
@@ -180,7 +180,7 @@ Then we can finally try installing IPython.
     
     pip install ipython[all]
 
-This will additionally install the following packages: `gnureadline`, `numpydoc`, `Sphinx`, `jinja2`, `docutils`, `markupsafe`.  Now we can finally test out IPython, as always with diminished expectations.
+This will additionally install the following packages: `gnureadline`, `numpydoc`, `Sphinx`, `jinja2`, `docutils`, `markupsafe`.  Now we can finally test out IPython... as always with diminished expectations.
     
     ipython qtconsole --pylab=inline
     ipython notebook --pylab=inline
@@ -199,7 +199,7 @@ Now let's see how things work in the `scipy2` virtual environment (remember to r
     pip install -U PySide
     pyside_postinstall.py -install
 
-Unfortunately, running the `pyside_postinstall.py` script with the `-install` flag gives the following error.
+Unfortunately, our diminished expectations are validated: running the `pyside_postinstall.py` script with the `-install` flag gives the following error.
 
     > pyside_postinstall.py -install
     : command not foundv/versions/scipy2/bin/pyside_postinstall.py: line 6: 
@@ -228,7 +228,9 @@ The `[all]` option for IPython installs packages like `jinja2` which are necessa
     ipython qtconsole --pylab=inline
     ipython notebook --pylab=inline
 
-**... Nope, just garbage.  At least this seems contained to the `scipy2` environment... :-P**  The output (if we first `pip uninstall PySide`, `brew uninstall cmake`, and try to rely solely on PyQt) is as follows.
+**... Nope, just garbage.  At least this seems contained to the `scipy2` environment... :-P**
+
+We can try a different tack within the `scipy2` virtual environment: let's try to have IPython run via PyQt.  If we first run `pip uninstall PySide`, followed by `brew uninstall cmake`, then the output is as follows.
 
     ImportError: 
         Could not load requested Qt binding. Please ensure that
@@ -240,7 +242,7 @@ The `[all]` option for IPython installs packages like `jinja2` which are necessa
         PySide >= 1.0.3 installed:       False
         Tried to load:                   ['pyside', 'pyqt']
 
-
+**... Still garbage... Never disappointed in failure to compile...**
 
 
 [brew]: http://brew.sh/
