@@ -223,7 +223,7 @@ Assuming things work right, we will eventually get to the following step.
 
     pip install ipython[all]
 
-The `[all]` option for IPython installs packages like `jinja2` which are necessary for using IPython Notebooks.  The full list of packages install is `gnureadline`, `Sphinx`, `numpydoc`, `jinja2`, `docutils`, `markupsafe`.  Then we can give things a try.
+The `[all]` option for IPython installs packages like `jinja2` which are necessary for using IPython Notebooks.  The full list of packages installed is `gnureadline`, `Sphinx`, `numpydoc`, `jinja2`, `docutils`, `markupsafe`.  Then we can give things a try.
 
     ipython qtconsole --pylab=inline
     ipython notebook --pylab=inline
