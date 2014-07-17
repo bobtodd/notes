@@ -244,6 +244,11 @@ We can try a different tack within the `scipy2` virtual environment: let's try t
 
 **... Still garbage... Never disappointed in failure to compile...**
 
+Current Status
+--------------
+
+Well, it seems like this is going to be difficult, and I'm not sure it's worth the effort right now.  Probably the best course of action is to go full steam ahead with Python 3.x and let Python 2.x continue on its slow decline unimpeded.  (This is what I wanted to do years ago, but the time required to update NumPy, et al., meant that I had to hang on to 2.x longer than expected.  It seems that particular Rubicon has now been crossed, and so I should only need 2.x for legacy stuff.)  So I'll just let the `scipy2` environment flounder until I, or someone else, find a better solution.
+
 
 [brew]: http://brew.sh/
 [python]: https://www.python.org/
