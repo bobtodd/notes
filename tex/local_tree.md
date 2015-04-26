@@ -2,7 +2,7 @@
 
 ## Short Version
 
-Looks like my [TeXLive](https://www.tug.org/texlive/) distribution is from 2013.  Even though the latest version, 2015, is about to appear, I should nevertheless update to 2014 before proceeding.  Perhaps the `tikz-er2` package will already be included (though I don't think so).
+Looks like my [TeXLive](https://www.tug.org/texlive/) distribution is from 2013.  Even though the latest version, 2015, is about to appear, I should nevertheless update to 2014 before proceeding.  Perhaps the `tikz-er2` package will already be included (though I don't think so).  For that we go to the [MacTeX](https://tug.org/mactex/) distribution website.
 
 ## Long Version
 
