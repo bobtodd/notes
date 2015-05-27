@@ -174,3 +174,33 @@ Now let's edit the "Bundle name".  This is what appears on the toolbar within th
 Now save the edits.  Open up the Dictionary.app.  When you select "All" in the menu bar, you should see a listing (assuming you've selected the dictionary in the Preferences pane) for *Zoëga's Concise Dictionary of Old Icelandic*.  And on your toolbar you should simply see "Zoëga".
 
 Done.
+
+## Follow-Up: Pali Dictionaries
+
+So now that we've had some success with the Old Icelandic dictionaries, it's time to try our hand at Pali dictionaries.  I first tried Buddhadatta's *Pali-English-Pali* dictionary, available [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pali-en-pa.tar.gz).
+
+After unzipping the file, we have a directory `stardict-pali-en-pa-2.4.2`.  Let's descend into the directory and use some `pyglossary` magic:
+
+```
+> pyenv activate glossary
+> cd stardict-pali-en-pa-2.4.2
+> ${PYGLOSSARY_HOME}/pyglossary.pyw --write-format=AppleDict pali-en-pa.ifo pali-en-pa.xml
+> make
+> make install
+```
+
+Then we can go edit the dictionary's `Info.plist`.  For the "Bundle display name" we'll write "Buddhadatta's Pali-English English-Pali Dictionary".  And for the "Bundle name" we'll write "Bdta P-E-P".
+
+Now we'll see if we can pull off the same trick with the Pali Text Society's *Pali-English Dictionary*, available [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pts_pali.tar.gz).  Unzipping the file leaves us with a directory `pts_pali`.  So we follow a similar procedure
+
+```
+> pyenv activate glossary
+> cd pts_pali
+> ${PYGLOSSARY_HOME}/pyglossary.pyw --write-format=AppleDict pts_pali.ifo pts_pali.xml
+> make
+> make install
+```
+
+For the "Bundle display name" we can write "Pali Text Society's Pāli-English Dictionary", and for the "Bundle name" we can put "PED".
+
+Finally!  I've finally got the PTS's *PED* in the Mac Dictionary.app!
