@@ -176,6 +176,10 @@ According to the [PySide installation guide][pyside], we need to run the followi
     pip install -U PySide
     pyside_postinstall.py -install
 
+*Note: since this was last updated, IPython has now changed its dependencies.  It now requires the following:*
+
+	pip install jsonschema
+
 Then we can finally try installing IPython.
     
     pip install ipython[all]
