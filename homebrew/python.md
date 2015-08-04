@@ -66,7 +66,9 @@ For real hacking, we can work with [Pyenv][pyenv] and get some fine-tuned contro
 
 Homebrew also provides a suggestion for using Homebrew's own directories rather than `~/.pyenv`, which seems like a good idea: we add the line
 
-    export PYENV_ROOT=/usr/local/opt/pyenv
+    #export PYENV_ROOT=/usr/local/opt/pyenv
+    # New location:
+    export PYENV_ROOT=/usr/local/var/pyenv
 
 to the `~/.bashrc` file.  Then I need to add the line (this must come *after* the preceding line)
 
@@ -82,7 +84,25 @@ This evidently enables the use of shims that Pyenv is based on, and it allows au
 
     brew install pyenv-virtualenv
 
+This installation now suggests putting the following in the `~/.bashrc` file:
+
+	if which pyenv-virtualenv-init > /dev/null;
+	  then eval "$(pyenv virtualenv-init -)";
+	fi
+
+Once again
+
+	source ~/.bashrc
+
 That should do it.
+
+### Note on Permissions
+
+If at this point or some later point in the process you run into a "Permission denied" error, where Homebrew or one of the installed packages doesn't have permission to write to one of the requisite directories of `/usr/local/`, the following command will likely help:
+
+	sudo chown "$USER":admin /usr/local
+
+This will change the current user to the owner of `/usr/local/`, so long as (s)he is part of the administrator group.
 
 
 
@@ -132,9 +152,11 @@ But [looking ahead][ipy-pyenv], IPython and Pyenv may throw errors if I don't fi
 Setting Up for Scientific Computation
 -------------------------------------
 
-The package NumPy requires the Fortran compiler.  This is most conveniently installed via Homebrew.
+The package NumPy requires the Fortran compiler.  This is most conveniently installed via Homebrew.  This used to be a separate `gfortran` package, but now this has been rolled into `gcc`:
 
-    brew install gfortran
+    brew install gcc
+
+This will add the dependencies `gmp, mpfr, libmpc, isl`.
 
 With that installed, I can now go ahead and set up the packages I want for my respective scientific sandboxes.  First I'll set up the sandbox with Python 3.
 
