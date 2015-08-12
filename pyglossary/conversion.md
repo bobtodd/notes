@@ -6,7 +6,7 @@ So I've been trying to convert some Icelandic dictionaries for use with the Mac 
 
 First off, you'll need the raw dictionary you want to start with.  I've never used [Lingvo dictionaries](http://www.abbyy.com/lingvo_dictionary/), but evidently it's a dictionary format that lots of people get a lot of mileage out of, so you have to know it's out there.
 
-The particular dictionaries I happened to be interested in were on Icelandic, listed at [this page](http://norse.ulver.com/files/lingvo/index.html).  In particular, I wanted to convert [Zoëga's *Concise Dictionary of Old Icelandic*](http://norse.ulver.com/files/lingvo/zoega.dsl.zip) and [Cleasby & Vígfússon's *Icelandic-English Dictionary*](http://norse.ulver.com/files/lingvo/cleasby.dsl.zip).  These are both old and out of copyright, so as I understand there's no harm in placing the links here.
+The particular dictionaries I happened to be interested in were on Icelandic, listed at [this page](http://norse.ulver.com/files/lingvo/index.html).  In particular, I wanted to convert [Zoëga's *Concise Dictionary of Old Icelandic*](http://norse.ulver.com/files/lingvo/zoega.dsl.zip) (here's a [local copy](./data/zoega.dsl.zip) for convenience) and [Cleasby & Vígfússon's *Icelandic-English Dictionary*](http://norse.ulver.com/files/lingvo/cleasby.dsl.zip).  These are both old and out of copyright, so as I understand there's no harm in placing the links here.
 
 So let's work on Zoëga's dictionary, and the other is similar.  Downloading gets you a file `zoega.dsl.zip`.  Unzip that file into a directory `zoega.dsl/`.  Descend into that directory within Terminal: that's where we're going to be doing our work.
 
@@ -177,7 +177,7 @@ Done.
 
 ## Follow-Up: Pali Dictionaries
 
-So now that we've had some success with the Old Icelandic dictionaries, it's time to try our hand at Pali dictionaries.  I first tried Buddhadatta's *Pali-English-Pali* dictionary, available [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pali-en-pa.tar.gz).
+So now that we've had some success with the Old Icelandic dictionaries, it's time to try our hand at Pali dictionaries.  I first tried Buddhadatta's *Pali-English-Pali* dictionary, available [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pali-en-pa.tar.gz) (or [locally](./data/pali-en-pa.tar.gz)).
 
 After unzipping the file, we have a directory `stardict-pali-en-pa-2.4.2`.  Let's descend into the directory and use some `pyglossary` magic:
 
@@ -191,7 +191,7 @@ After unzipping the file, we have a directory `stardict-pali-en-pa-2.4.2`.  Let'
 
 Then we can go edit the dictionary's `Info.plist`.  For the "Bundle display name" we'll write "Buddhadatta's Pali-English English-Pali Dictionary".  And for the "Bundle name" we'll write "Bdta P-E-P".
 
-Now we'll see if we can pull off the same trick with the Pali Text Society's *Pali-English Dictionary*, available [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pts_pali.tar.gz).  Unzipping the file leaves us with a directory `pts_pali`.  So we follow a similar procedure
+Now we'll see if we can pull off the same trick with the Pali Text Society's *Pali-English Dictionary*, available [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pts_pali.tar.gz) (or [locally](./data/pts_pali.tar.gz)).  Unzipping the file leaves us with a directory `pts_pali`.  So we follow a similar procedure
 
 ```
 > pyenv activate glossary
@@ -204,3 +204,49 @@ Now we'll see if we can pull off the same trick with the Pali Text Society's *Pa
 For the "Bundle display name" we can write "Pali Text Society's Pāli-English Dictionary", and for the "Bundle name" we can put "PED".
 
 Finally!  I've finally got the PTS's *PED* in the Mac Dictionary.app!
+
+## And Just for Kicks: Sanskrit
+
+Let's see if we can install some Sanskrit dictionaries.  [This page](http://www.aupasana.com/stardict) lists some collections of bi-directional dictionaries which it would be useful to install.
+
+### Apte
+
+In particular, we can start with [Apte's *Practical Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/apte-bi.tar.gz) (or the [local file](./data/apte-bi.tar.gz)), which happens to have been modified into a bi-directional Sanskrit-English, English-Sanskrit dictionary whose output is in the Devanāgarī script).  A similar process as that given above seems to work:
+
+```
+> pyenv activate glossary
+> cd apte-bi
+> ${PYGLOSSARY_HOME}/pyglossary.pyw --write-format=AppleDict apte-bi.ifo apte-bi.xml
+> make
+> make install
+```
+
+Then we change the "Bundle display name" to "Apte's Practical Sanskrit-English Dictionary (Bi-Directional)" and the "Bundle name" to "Apte S-E-S".
+
+### Monier-Williams
+
+Next we try the [Monier-Williams *Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/mw-bi-itrans-dev.tar.gz) ([locally](./data/mw-bi-itrans-dev.tar.gz)).  This version is again bi-directional and renders the Sanskrit in Devanāgarī.  We try the same procedure:
+
+```
+> pyenv activate glossary
+> cd mw-bi-itrans-dev
+> ${PYGLOSSARY_HOME}/pyglossary.pyw --write-format=AppleDict mw-bi-itrans-dev.ifo mw-bi-itrans-dev.xml
+> make
+> make install
+```
+
+We change the "Bundle display name" to "Monier-Williams's Practical Sanskrit-English Dictionary (Bi-Directional)" and the "Bundle name" to "MW S-E-S".
+
+And finally, because at times it's useful just to have the Roman transliteration, we'll try to install the [Monier-Williams *Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/mw-itrans-rom.tar.gz) ([local file](./data/mw-itrans-rom.tar.gz)) using a transliterated format.  This dictionary is only unidirectional: Sanskrit-English.  We try
+
+```
+> pyenv activate glossary
+> cd mw-itrans-rom
+> ${PYGLOSSARY_HOME}/pyglossary.pyw --write-format=AppleDict mw-itrans-rom.ifo mw-itrans-rom.xml
+> make
+> make install
+```
+
+Then we change the "Bundle display name" to "Monier-Williams's Practical Sanskrit-English Dictionary (Romanized)" and the "Bundle name" to "MW Skt".
+
+Wow.  Pretty nice.  That seems to have worked.
