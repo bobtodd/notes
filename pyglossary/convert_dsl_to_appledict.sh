@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PYGLOSSARY_HOME=~/BtWk/pyglossary/
+PYGLOSSARY_HOME=~/BtWk/Extras/pyglossary/
 
 usage="Convert Lingvo DSL source to AppleDict\n
 USAGE:\n

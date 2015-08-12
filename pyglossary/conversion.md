@@ -78,7 +78,7 @@ Now back to our Python setup.  The major tool we're going to employ is [PyGlossa
 
 There's one last tool that makes things work a lot more quickly.  (We could do everything by hand with what we've done above.)  That tool is this [gist](https://gist.github.com/elFua/8540294) submitted by [elFua](https://github.com/elFua).  I've modified it only slightly and placed it [here](./convert_dsl_to_appledict.sh).  This gist is actually a shell script that does all the processing for us.
 
-What you'll need to do is edit the very beginning of the script for your `PYGLOSSARY_HOME`.  I've set that variable to my clone of the PyGlossary repo inside my work directory, called `BtWk/`.  You'll need to adjust this to your work directory containing the PyGlossary clone.
+What you'll need to do is edit the very beginning of the script for your `PYGLOSSARY_HOME`.  I've set that variable to my clone of the PyGlossary repo inside my work directory, called `BtWk/Extras/`.  You'll need to adjust this to your work directory containing the PyGlossary clone.
 
 Now you should be ready to go.
 
