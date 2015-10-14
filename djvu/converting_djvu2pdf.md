@@ -82,6 +82,13 @@ There's an additional library called [PDFtk, the PDF toolkit](https://www.pdflab
 
 Well, that would work, except that it seems PDFtk is lame.  See [this thread](https://github.com/caskroom/homebrew-cask/issues/7707), followed by [this one](https://github.com/caskroom/homebrew-cask/pull/11351).  There seems to be a possible solution suggested in the first thread...
 
+Perhaps the [`homebrew-pdftk` repo](https://github.com/docmunch/homebrew-pdftk) on GitHub will work.  We try their sequence of commands.
+
+```
+> brew tap docmunch/pdftk
+> brew install pdftk    # installs dependencies ecj, gcc (compiled with --with-all-languages flag)
+```
+
 
 ### Python
 
