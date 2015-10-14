@@ -8,7 +8,17 @@ First we need to make sure we have all the dependencies installed.  Some of thes
 
 ### Ruby
 
-At the moment I'm using [Ruby Version Manager (RVM)](https://rvm.io/), a fantastic tool.  A possible alternative is Rbenv, but I'll stick with my ol' standby for now, since I have no project-based compelling reason to switch at the moment (I currently create gemsets based on "themes" for exploratory computing, rather than tying them to specific projects, which might be better served by the `rbenv`-`bundler` combination).  So we'll do a little upgrading to start.
+At the moment I'm using [Ruby Version Manager (RVM)](https://rvm.io/), a fantastic tool.  A possible alternative is Rbenv, but I'll stick with my ol' standby for now, since I have no project-based compelling reason to switch at the moment (I currently create gemsets based on "themes" for exploratory computing, rather than tying them to specific projects, which might be better served by the `rbenv`-`bundler` combination).
+
+If you don't have RVM installed on your machine, there's a nice guide [here](http://usabilityetc.com/articles/ruby-on-mac-os-x-with-rvm/), which will of course shunt you off to the official page [here](https://rvm.io/rvm/install).  The new trick is that there is a public key which needs to be installed, and to do this we need the [GNU Privacy Guard](https://en.wikipedia.org/wiki/GNU_Privacy_Guard).  The command `gpg` will create a directory `~/.gnupg` if you don't already have one, and the RVM installation will create `~/.rvm`.  Try the following:
+
+```
+> brew install gnupg
+> gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3    # or the most up-to-date command on the RVM install page
+> \curl -sSL https://get.rvm.io | bash -s stable --ruby    # for the latest stable version
+```
+
+Once you have RVM installed, you might need to do a little upgrading.
 
 ```
 > rvm get stable    # get newest RVM release
@@ -39,7 +49,7 @@ Now we can try for `pdfbeads`.
 ```
 > rvm gemset create djvu2pdf
 > rvm gemset use djvu2pdf
-> gem install pdfbeads    # also installs Ascii85, ruby-rc4, hashery, ttfunk, afm, pdf-reader, nokogiri, rmagick, mini_portile
+> gem install pdfbeads    # also installs rmagick, mini_portile, nokogiri, Ascii85, ruby-rc4, hashery, ttfunk, afm, pdf-reader
 ```
 
 Unfortunately what is not mentioned in the the sources for this procedure: `pdfbeads` relies on `iconv` (a source of much gnashing of teeth years ago).  See [this thread](http://stackoverflow.com/questions/29201518/in-require-cannot-load-such-file-iconv-loaderror).  So it looks like we need to add the following gem.
