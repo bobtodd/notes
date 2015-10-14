@@ -25,7 +25,7 @@ Now that my Ruby installation is set, it looks like I'll need to install the gem
 Ah, but first: it seems `pdfbeads` requires [ImageMagick](http://www.imagemagick.org/script/index.php).  So we should install that via Homebrew.
 
 ```
-> brew install imagemagick    # also installs xz, libpng
+> brew install imagemagick    # also installs xz, libpng, libtool, jpeg, libtiff, freetype
 ```
 
 And make sure the Xcode Command Line Tools are installed (`nokogiri` is a real stickler about this).
