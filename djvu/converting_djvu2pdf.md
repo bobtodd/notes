@@ -1,6 +1,20 @@
 # Notes for Converting DjVu Files to PDF Preserving Bookmarks
 
-Essentially I'm trying to follow the procedure outlined in the [`dpsprep` repo](https://github.com/kcroker/dpsprep) on GitHub, which itself is mostly a distillation of [this StackExchange thread](http://superuser.com/questions/801893/converting-djvu-to-pdf-and-preserving-table-of-contents-how-is-it-possible), with some additional features mention in [this Ubuntu thread](http://askubuntu.com/questions/46233/converting-djvu-to-pdf).
+Essentially I'm trying to follow the procedure outlined in the [`dpsprep` repo](https://github.com/kcroker/dpsprep) on GitHub, which itself is mostly a distillation of [this StackExchange thread](http://superuser.com/questions/801893/converting-djvu-to-pdf-and-preserving-table-of-contents-how-is-it-possible), with some additional features mentioned in [this Ubuntu thread](http://askubuntu.com/questions/46233/converting-djvu-to-pdf).  Unfortunately the repo itself doesn't have a list of dependencies, so this amounts to tracing my way through the threads linked in the [README](https://github.com/kcroker/dpsprep/blob/master/README.md) file.  To make life a little easier, here's the short list of the dependencies:
+
+* [`pdfbeads`](https://rubygems.org/gems/pdfbeads), a Ruby gem, which itself depends on
+	* [ImageMagick](http://www.imagemagick.org/script/index.php)
+	* rmagic
+	* nokogiri
+	* pdf-reader
+	* iconv
+* Two Python packages, based on Python 2.x:
+	* [`ocrodjvu`](http://jwilk.net/software/ocrodjvu)
+	* [`sexpdata`](https://pypi.python.org/pypi/sexpdata)
+* [DjVuLibre](http://djvu.sourceforge.net/)
+* [PDFtk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/)
+
+These all require varying degrees of pain to install.  The last one, [PDFtk, the PDF toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/), seems to be the worst.  It takes some special magic to get Homebrew to install it, and it seems that with the new upgrade to Mac OS 10.11 El Capitan, even this installation is broken.  I know... hard to believe, right?  I'll let you discover the mysteries of this adventure below.
 
 ## Getting Ready
 
