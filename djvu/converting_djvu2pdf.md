@@ -4,10 +4,10 @@ Essentially I'm trying to follow the procedure outlined in the [`dpsprep` repo](
 
 * [`pdfbeads`](https://rubygems.org/gems/pdfbeads), a Ruby gem, which itself depends on
 	* [ImageMagick](http://www.imagemagick.org/script/index.php),
-	* rmagic,
-	* nokogiri,
-	* pdf-reader,
-	* iconv;
+	* `rmagic`,
+	* `nokogiri`,
+	* `pdf-reader`,
+	* `iconv`;
 * Two Python packages, based on Python 2.x:
 	* [`ocrodjvu`](http://jwilk.net/software/ocrodjvu),
 	* [`sexpdata`](https://pypi.python.org/pypi/sexpdata);
