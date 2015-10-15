@@ -4,7 +4,19 @@ Essentially I'm trying to follow the procedure outlined in the [`dpsprep` repo](
 
 ## Getting Ready
 
-First we need to make sure we have all the dependencies installed.  Some of these are based on Ruby, others on the DjVuLibre collection of command-line tools.
+First we need to make sure we have the repository and all the dependencies installed.  Some of these are based on Ruby, others on Python, and still others on independent libraries the DjVuLibre collection of command-line tools and PDFtk.
+
+### The Repo
+
+Now let's go to a working directory and clone the GitHub repo.
+
+```
+> cd path/to/where/the/coverter/tool/will/reside
+> git clone https://github.com/kcroker/dpsprep.git
+```
+
+Done.
+
 
 ### Ruby
 
@@ -58,37 +70,6 @@ Unfortunately what is not mentioned in the the sources for this procedure: `pdfb
 > gem install iconv
 ```
 
-### DjVuLibre
-
-DjVuLibre is a pretty robust collection of routines for working with DjVu files.  Best of all, it can be installed by [Homebrew](http://brewformulas.org/Djvulibre).  So we'll go that route.
-
-```
-> brew doctor    # figure out where your Homebrew install is at
-> sudo chown -R `whoami` /usr/local    # if you happen to get chastized for permissions issues by the doctor
-> brew update    # get up to date
-> brew doctor    # go back for a second opinion
-> brew install djvulibre    # also installs libtiff dependency
-```
-
-I initially thought we might also need some other tools, like [Okular](https://okular.kde.org/), [Evince](https://wiki.gnome.org/Apps/Evince), which can be installed via Homebrew (`brew install okular evince`), but it seems that's not necessary.
-
-### PDFtk
-
-There's an additional library called [PDFtk, the PDF toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) whose name, I assume, is fairly descriptive of what it does.  We need to install that.
-
-```
-> brew install pdftk
-```
-
-Well, that would work, except that it seems PDFtk is lame.  See [this thread](https://github.com/caskroom/homebrew-cask/issues/7707), followed by [this one](https://github.com/caskroom/homebrew-cask/pull/11351).  There seems to be a possible solution suggested in the first thread...
-
-Perhaps the [`homebrew-pdftk` repo](https://github.com/docmunch/homebrew-pdftk) on GitHub will work.  We try their sequence of commands.
-
-```
-> brew tap docmunch/pdftk
-> brew install pdftk    # installs dependencies ecj, gcc (compiled with --with-all-languages flag)
-```
-
 
 ### Python
 
@@ -122,16 +103,41 @@ Remember that to get out of this virtual environment, you write `pyenv deactivat
 
 Wow, that seems to have worked.
 
-### The Repo
 
-Now let's go to a working directory and clone the GitHub repo.
+### DjVuLibre
+
+DjVuLibre is a pretty robust collection of routines for working with DjVu files.  Best of all, it can be installed by [Homebrew](http://brewformulas.org/Djvulibre).  So we'll go that route.
 
 ```
-> cd path/to/where/the/coverter/tool/will/reside
-> git clone https://github.com/kcroker/dpsprep.git
+> brew doctor    # figure out where your Homebrew install is at
+> sudo chown -R `whoami` /usr/local    # if you happen to get chastized for permissions issues by the doctor
+> brew update    # get up to date
+> brew doctor    # go back for a second opinion
+> brew install djvulibre    # also installs libtiff dependency
 ```
 
-Done.
+I initially thought we might also need some other tools, like [Okular](https://okular.kde.org/), [Evince](https://wiki.gnome.org/Apps/Evince), which can be installed via Homebrew (`brew install okular evince`), but it seems that's not necessary.
+
+
+### PDFtk
+
+There's an additional library called [PDFtk, the PDF toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) whose name, I assume, is fairly descriptive of what it does.  We need to install that.
+
+```
+> brew install pdftk
+```
+
+Well, that would work, except that it seems PDFtk is lame.  See [this thread](https://github.com/caskroom/homebrew-cask/issues/7707), followed by [this one](https://github.com/caskroom/homebrew-cask/pull/11351).  There seems to be a possible solution suggested in the first thread... but I think I've found a different (better?) way.
+
+Perhaps the [`homebrew-pdftk` repo](https://github.com/docmunch/homebrew-pdftk) on GitHub will work.  We'll try their sequence of commands.
+
+```
+> brew tap docmunch/pdftk
+> brew install pdftk    # installs dependencies ecj, gcc (compiled with --with-all-languages flag)
+```
+
+This is a valid procedure, but it seems that it hangs when finally trying to install `pdftk` after all the dependencies.  The thread ["Installation hangs on El Capitan"](https://github.com/docmunch/homebrew-pdftk/issues/7) suggests this is not a problem isolated to my machine.  Unfortunately it looks like there's no solution to the problem as of yet.  Figures.
+
 
 ## Getting On With It
 
