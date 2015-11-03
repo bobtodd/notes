@@ -250,3 +250,27 @@ And finally, because at times it's useful just to have the Roman transliteration
 Then we change the "Bundle display name" to "Monier-Williams's Practical Sanskrit-English Dictionary (Romanized)" and the "Bundle name" to "MW Skt".
 
 Wow.  Pretty nice.  That seems to have worked.
+
+## A Bonus: Webster's 1913
+
+So if you're a fan of dictionaries, you've probably read the blog post [*You’re probably using the wrong dictionary*](http://jsomers.net/blog/dictionary) by James Somers.  If you haven't, do it now.  I'll wait.
+
+Still waiting.  Take your time.
+
+OK.  Now that you've finished, I'm sure you agree using Webster's earlier dictionary is the *right* thing to do.  Because there are no shades of grey.
+
+So we can add that dictionary to the to-do list.  You can either find the file for Webster's 1913 online [here](https://s3.amazonaws.com/jsomers/dictionary.zip), or you can just use the [local copy](./data/stardict-dictd-web1913-2.4.2.tar.bz2) I've left on GitHub.  It's in the StarDict format, so we only need the shortened process we applied to the Indic dictionaries.
+
+Start by decompressing the file with your favorite decompression tool.  This will leave you with a folder `stardict-dictd-web1913-2.4.2/`.  Descend into that folder.  Then follow the usual procedure:
+
+```
+> pyenv activate glossary
+> cd stardict-dictd-web1913-2.4.2/
+> ${PYGLOSSARY_HOME}/pyglossary.pyw --write-format=AppleDict dictd_www.dict.org_web1913.ifo dictd_www.dict.org_web1913.xml
+> make
+> make install
+```
+
+For the "Bundle display name" we can write "Webster's Revised Unabridged Dictionary (1913)" and for the "Bundle name" we try "W1913".
+
+Now *that's* some serious dictionariousness.
