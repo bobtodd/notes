@@ -152,6 +152,13 @@ Perhaps the [`homebrew-pdftk` repo](https://github.com/docmunch/homebrew-pdftk) 
 
 This is a valid procedure, but it seems that it hangs when finally trying to install `pdftk` after all the dependencies.  The thread ["Installation hangs on El Capitan"](https://github.com/docmunch/homebrew-pdftk/issues/7) suggests this is not a problem isolated to my machine.  Unfortunately it looks like there's no solution to the problem as of yet.  Figures.
 
+Update (2015/11/04): It seems like there might be hope.  There's a GitHub Gist [*Installing PDFtk Server edition on your Mac*](https://gist.github.com/jvenator/9672772a631c117da151) that shows how to install PDFtk in a way that avoids it rewriting many of the permissions in `/usr/local/`... something it shouldn't have been doing in the first place, since that tends to break things for other programs installed there.  However it turns out that even this method broke with the advent of Mac OS 10.11.  However `@rmehner` left a Gist [*Install PDFtk without touching up the permissions*](https://gist.github.com/rmehner/fed9d1ac70eaa296306a), which runs as a shell script and should work on OS 10.11.  I'll leave a local copy of it [here](./extra/install_pdftk.sh).  So let's give it a shot.
+
+```
+> install_pdftk.sh https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg
+> brew doctor
+```
+
 
 ## Getting On With It
 
@@ -165,3 +172,5 @@ Let's put the original `djvu` file in a test directory.  Then let's try
 > pyenv activate djvu2pdf
 > ../path/to/dpsprep test_file.djvu test_file.pdf
 ```
+
+Success!  For now...
