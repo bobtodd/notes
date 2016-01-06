@@ -110,8 +110,12 @@ No matching distribution found for wheel`.  The above seems to remove that error
 > pip install --upgrade pip
 > pip install ocrodjvu
 > pip install lxml    # a dependency for ocrodjvu evidently overlooked by pip
+> pip install cython # a dependency for python-djvulibre overlooked by pip
+> pip install python-djvulibre # another package for ocrodjvu that pip skips
 > pip install sexpdata
 ```
+
+Note that the package manager `pip` evidently isn't so slick at managing packages.  There are several dependencies it doesn't compile before installing the desired package.  Look at [this thread](https://github.com/h5py/h5py/issues/535) for similar issues.  It seems this might be fixed in later versions of `pip`, but our hand is forced by the requirement for Python 2.x.
 
 Remember that to get out of this virtual environment, you write `pyenv deactivate`.
 
