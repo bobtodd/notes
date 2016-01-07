@@ -163,3 +163,11 @@ All done!
 Stopping `mysql`... (might take a while)
 ==> Successfully stopped `mysql` (label: homebrew.mxcl.mysql)
 ```
+
+## Localhost
+
+That [useful blog post](http://wpguru.co.uk/2015/11/how-to-install-mysql-on-mac-os-x-el-capitan/) mentioned above also points out some strangeness with using `localhost`.  Specifically,
+
+> MySQL on OS X doesn’t like the value “localhost”. Instead, use 127.0.0.1 (don’t ask me why).
+
+And it also mentions [Sequel Pro](http://sequelpro.com/), a free GUI for MySQL.
