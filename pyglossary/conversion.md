@@ -251,6 +251,36 @@ Then we change the "Bundle display name" to "Monier-Williams's Practical Sanskri
 
 Wow.  Pretty nice.  That seems to have worked.
 
+## Slavic: Because... Why Not?
+
+### Old Church Slavonic
+
+We'll try installing the Old Church Slavonic dictionary compiled by the University of Pittsburgh.  Unfortunately the original site seems to have been removed or relocated, but there's a mirror of the dictionary [here](https://podolak.net/doc/dictionaries/chu-eng_pitt-edu_podomart_2_0.dsl.zip) (or the [local file](./data/chu-eng_pitt-edu_podomart_2_0.dsl.zip)).  Unzip the file, descend into the directory, and run the shell script.
+
+```
+> cd ~/Desktop/chu-eng_pitt-edu_podomart_2_0.dsl
+> pyenv activate glossary
+> /path/to/convert_dsl_to_appledict.sh chu-eng_pitt-edu_podomart_2_0.dsl
+> pyenv deactivate glossary
+```
+
+Then we change the "Bundle display name" to "Old Church Slavonic (University of Pittsburgh)" and the "Bundle name" to "OCS Pitt".
+
+### Old Russian
+
+Next we'll try installing the Old Russian dictionary compiled by the University of Pittsburgh.  Again, I've found a mirror of the dictionary [here](https://podolak.net/doc/dictionaries/orv-rus_pitt-edu_podomart_2_1.dsl.zip) (or simply use the [local file](./data/orv-rus_pitt-edu_podomart_2_1.dsl.zip)).  The same rigamarole: unzip, descend, run the script.
+
+```
+> cd ~/Desktop/orv-rus_pitt-edu_podomart_2_1.dsl
+> pyenv activate glossary
+> /path/to/convert_dsl_to_appledict.sh orv-rus_pitt-edu_podomart_2_1.dsl
+> pyenv deactivate glossary
+```
+
+Change the "Bundle display name" to "Древнерусский словарь (University of Pittsburg)" and the "Bundle name" to "ORu Pitt".
+
+Awesome.
+
 ## A Bonus: Webster's 1913
 
 So if you're a fan of dictionaries, you've probably read the blog post [*You’re probably using the wrong dictionary*](http://jsomers.net/blog/dictionary) by James Somers.  If you haven't, do it now.  I'll wait.
