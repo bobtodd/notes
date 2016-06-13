@@ -275,6 +275,62 @@ Current Status
 
 Well, it seems like this is going to be difficult, and I'm not sure it's worth the effort right now.  Probably the best course of action is to go full steam ahead with Python 3.x and let Python 2.x continue on its slow decline unimpeded.  (This is what I wanted to do years ago, but the time required to update NumPy, et al., meant that I had to hang on to 2.x longer than expected.  It seems that particular Rubicon has now been crossed, and so I should only need 2.x for legacy stuff.)  So I'll just let the `scipy2` environment flounder until I, or someone else, find a better solution.
 
+## Quick (Re-)Set-Up Summary
+
+As it turns out, doing `brew update --all` installed a new version of `pyenv`, and this seems to have killed all my virtual environments.  So to get back up and running, here's a summary of the above.
+
+```
+\# Get some Homebrew stuff first
+brew install qt --with-python3 --build-from-source
+brew install pyqt --with-python3 --build-from-source
+brew install zeromq
+brew install pyenv
+brew install pyenv-virtualenv
+brew install cmake
+brew install gcc
+
+\# Install whatever the latest Pythons are
+pyenv install 2.7.11
+pyenv install 3.5.1
+
+\# Make some Python 2 and Python 3 environments
+pyenv virtualenv 2.7.11 scipy2
+pyenv virtualenv 3.5.1 scipy3
+
+\# Some quick upgrades in the Python 3 environment
+pyenv activate scipy3
+pip install --upgrade setuptools
+pip install --upgrade pip
+
+\# Populate the Python 3 environment with useful packages
+pyenv activate scipy3
+pip install nose
+pip install numpy
+pip install scipy
+pip install matplotlib
+pip install pandas
+pip install pyzmq
+pip install pygments
+pip install jsonschema
+
+pip install -U PySide
+pyside_postinstall.py -install
+
+pip install ipython[all]
+
+\# And for NLTK
+pip install nltk
+
+\# Get out of the Python 3 environment
+pyenv deactivate
+
+\# Repeat for the Python 2 environment
+pyenv activate scipy2
+
+\# Run the same pip commands as a above
+\# But remember IPython will fail because of the Qt compilation mismatch
+```
+
 
 [brew]: http://brew.sh/
 [python]: https://www.python.org/
