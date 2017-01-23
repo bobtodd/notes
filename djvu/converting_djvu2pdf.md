@@ -70,6 +70,13 @@ And make sure the Xcode Command Line Tools are installed (`nokogiri` is a real s
 > xcode-select --install
 ```
 
+**Update (2017/01/22):** it seems `rmagick` is important for this whole process, but currently something is broken in the new ImageMagick (version 7) install that `rmagick` can't overcome.  See [this thread](http://stackoverflow.com/questions/39494672/rmagick-installation-cant-find-magickwand-h).  It seems like the temporary solution is to downgrade to version 6:
+
+```
+> brew install imagemagick@6
+> brew link --overwrite --force imagemagick@6
+```
+
 Now we can try for `pdfbeads`.
 
 ```
