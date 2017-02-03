@@ -32,7 +32,7 @@ Next, download GYB from the [release page](https://github.com/jay0lee/got-your-b
 Set up GYB by the following:
 
 ```
-./gyb --email old_address@gmail.com --action estimate
+> ./gyb --email old_address@gmail.com --action estimate
 ```
 
 The command prompt will say
@@ -74,7 +74,7 @@ It creates a folder `GYB-GMail-Backup-old_address@gmail.com/` as a subfolder of 
 To actually perform the backup, run the following command.
 
 ```
-./gyb --email old_address@gmail.com --action backup
+> ./gyb --email old_address@gmail.com --action backup
 ```
 
 It creates a folder `GYB-GMail-Backup-old_address@gmail.com/` as a subfolder of `gyb/`.
@@ -97,7 +97,7 @@ GYB needs to refresh 0 messages
 In order to restore to an account with an address **different** from that of the account we backed up, we must specify the name of the backup folder.  So we run the following command:
 
 ```
-./gyb --email new_address@gmail.com --action restore --local-folder GYB-GMail-Backup-old_address@gmail.com --label-restored "Old Address"
+> ./gyb --email new_address@gmail.com --action restore --local-folder GYB-GMail-Backup-old_address@gmail.com --label-restored "Old Address"
 ```
 
 The `--label-restored` flag tells GYB to apply the label that follows to all the messages restored to the new account.
@@ -121,6 +121,25 @@ Select the actions you wish GYB to be able to perform for bobtodd@utexas.edu
 ```
 
 I chose `0` and `7`.  A browser window then pops up as before, and you must log into the new Gmail account.
+
+### Note: Restarting
+
+GYB keeps track of its progress.  If it aborts for some reason, as in the following
+
+```
+Using backup folder GYB-GMail-Backup-old_address@gmail.com
+restoring 10 messages (1424/34744)                                              
+409: Label name exists or conflicts - aborted
+```
+
+you can re-execute the command and it will pick up where it left off.
+
+```
+> ./gyb --email new_address@gmail.com --action restore --local-folder GYB-GMail-Backup-old_address@gmail.com --label-restored "Old Address"
+
+Using backup folder GYB-GMail-Backup-old_address@gmail.com
+restoring 10 messages (254/33320)
+```
 
 ### Import Filters
 
