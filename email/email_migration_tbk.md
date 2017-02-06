@@ -11,11 +11,13 @@ Some great sources for how to perform the process are the following discussions.
 
 Of these I found the [first one](http://www.howtogeek.com/148036/how-to-migrate-your-google-account-to-a-new-one/) most helpful and robust.  It's also similar to guidelines outlined by UT's Math Department.
 
-But in the course of searching the web, I also came across this great command line tool:
+But in the course of searching the web, I also came across this great command line tool (referenced in [this thread](https://productforums.google.com/forum/#!topic/gmail/QnEibkO8gsw)):
 
 * [Got Your Back (GYB)](https://github.com/jay0lee/got-your-back/wiki)
 
 whose source code is on GitHub.  So I'm trying the procedure outlined by GYB, but complemented by some points learned from the "[How to Migrate...](http://www.howtogeek.com/148036/how-to-migrate-your-google-account-to-a-new-one/)" article listed first above.
+
+One note, however, is that [this issue](https://github.com/jay0lee/got-your-back/issues/84) makes it seem like GYB will not backup chats.
 
 ## Setup
 
@@ -140,6 +142,38 @@ you can re-execute the command and it will pick up where it left off.
 Using backup folder GYB-GMail-Backup-old_address@gmail.com
 restoring 10 messages (254/33320)
 ```
+
+### Errors
+
+In my initial attempts at using GYB, I got several notifications that it needed to skip emails:
+
+```
+ERROR: 400: Bad Request. Skipping message restore, you can retry later with --fast-restore
+restoring 10 messages (33316/33320)                                             
+ERROR: 400: Bad Request. Skipping message restore, you can retry later with --fast-restore
+```
+
+And so on.  This suggests re-running the command with the `--fast-restore` flag.
+
+**Do *not* do that!**
+
+At least not initially.  A quick look at the [GYB Wiki](https://github.com/jay0lee/got-your-back/wiki) reveals the following:
+
+> ### --fast-restore
+> 
+> Perform a faster restore of messages. It's important to note that when performing a fast restore, restored messages will not be threaded into Gmail conversations nor will they be de-dupped. This makes viewing and managing the messages in the mailbox at a later time much more difficult.
+
+So it looks like using that flag will result in a mess of emails dissociated from their threads.  It's better just to **rerun the original restore command**:
+
+```
+> ./gyb --email new_address@gmail.com --action restore --local-folder GYB-GMail-Backup-old_address@gmail.com --label-restored "Old Address"
+
+Using backup folder GYB-GMail-Backup-old_address@gmail.com
+restoring 10 messages (967/4644)
+```
+
+As you can see, the resultant queue of messages to be restored is quite a bit smaller (in my case ~4000 emails instead of the original ~33000).  So it seems that GYB will try to restore the messages that haven't yet been restored upon rerunning the program.  That's pretty cool.
+
 
 ### Import Filters
 
