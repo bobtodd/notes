@@ -174,6 +174,29 @@ restoring 10 messages (967/4644)
 
 As you can see, the resultant queue of messages to be restored is quite a bit smaller (in my case ~4000 emails instead of the original ~33000).  So it seems that GYB will try to restore the messages that haven't yet been restored upon rerunning the program.  That's pretty cool.
 
+When all is said and done (perhaps after multiple reruns), you might have something like the following:
+
+```
+Using backup folder GYB-GMail-Backup-old_address@gmail.com
+restoring 2 messages (2/2)                                                      
+ERROR: 400: Invalid From header. Skipping message restore, you can retry later with --fast-restore
+
+ERROR: 400: Invalid From header. Skipping message restore, you can retry later with --fast-restore
+
+```
+
+It looks like multiple reruns doesn't fix this.  From [this GYB issue thread](https://github.com/jay0lee/got-your-back/issues/77), one potential source of the problem is emails with an "unknown sender".  In that case, employing `--fast-restore` might not be a bad option:
+
+```
+> ./gyb --email new_address@gmail.com --action restore --fast-restore --local-folder GYB-GMail-Backup-old_address@gmail.com --label-restored "Old Address"
+```
+
+If they have no sender, then it's not clear that they should belong to any particular thread.  Therefore the fact that `--fast-restore` destroys threading might not be problematic.  But there is a caveat:
+
+**`--fast-restore` will leave multiple copies if run multiple times.**
+
+So this is something you only want to do once.
+
 
 ### Import Filters
 
