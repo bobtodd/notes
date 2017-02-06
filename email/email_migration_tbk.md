@@ -208,3 +208,15 @@ Log into the new account.  Then
 * Click Open File,
 * Scroll to the bottom and click "Apply new filters to existing email" if desired,
 * Click Create Filters.
+
+
+## Extras
+
+Searching through the SQLite database, I found that one invalid message occurred before message 30,000.  In particular, they were messages numbered
+
+* 26,271
+	* File: `2012/1/31/135350e1b08a0d14.eml`
+	* Date: 2012-01-31 10:19:47
+* 31,232
+	* File: `2010/9/1/12acef59ffbc3992.eml`
+	* Date: 2010-09-01 15:20:51
