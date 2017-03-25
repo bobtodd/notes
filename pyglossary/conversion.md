@@ -304,3 +304,19 @@ Start by decompressing the file with your favorite decompression tool.  This wil
 For the "Bundle display name" we can write "Webster's Revised Unabridged Dictionary (1913)" and for the "Bundle name" we try "W1913".
 
 Now *that's* some serious dictionariousness.
+
+## Shortcuts
+
+As it turns out, if you're trying to download and install the Lingvo dictionaries in-app, clicking on the links in GitHub doesn't work well.  That's because you need the "raw" files, rather than GitHub's display.  Here's a list of shortcuts for the above dictionaries.
+
+| **Dictionary** | **Original Link** | **Raw Local Link** |
+| :-- | :-- | :-- |
+| Cleasby | [here](http://norse.ulver.com/files/lingvo/cleasby.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/cleasby.dsl.zip) |
+| Zoëga | [here](http://norse.ulver.com/files/lingvo/zoega.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/zoega.dsl.zip) |
+| Apte (Bi-Directional) | [here](http://old.aupasana.com/file-cabinet/apte-bi.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/apte-bi.tar.gz) |
+| Monier-Williams (Bi-Directional) | [here](http://old.aupasana.com/file-cabinet/mw-bi-itrans-dev.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/mw-bi-itrans-dev.tar.gz) |
+| Monier-Williams (Uni-Directional) | [here](http://old.aupasana.com/file-cabinet/mw-itrans-rom.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/mw-itrans-rom.tar.gz) |
+| PTS PED | [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pts_pali.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/pts_pali.tar.gz) |
+| Pali-English-Pali | [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pali-en-pa.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/pali-en-pa.tar.gz) |
+| OCS (U. of Pitt.) | [here](https://podolak.net/doc/dictionaries/chu-eng_pitt-edu_podomart_2_0.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/chu-eng_pitt-edu_podomart_2_0.dsl.zip) |
+| Old Russian (U. of Pitt.) | [here](https://podolak.net/doc/dictionaries/orv-rus_pitt-edu_podomart_2_1.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/orv-rus_pitt-edu_podomart_2_1.dsl.zip) |
