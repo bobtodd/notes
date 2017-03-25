@@ -207,11 +207,11 @@ Finally!  I've finally got the PTS's *PED* in the Mac Dictionary.app!
 
 ## And Just for Kicks: Sanskrit
 
-Let's see if we can install some Sanskrit dictionaries.  [This page](http://www.aupasana.com/stardict) lists some collections of bi-directional dictionaries which it would be useful to install.
+Let's see if we can install some Sanskrit dictionaries.  [This page](http://old.aupasana.com/stardict) lists some collections of bi-directional dictionaries which it would be useful to install.  (Note that, according to the note at the bottom of [this page](http://aupasana.com/), the original pages have been archived.)
 
 ### Apte
 
-In particular, we can start with [Apte's *Practical Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/apte-bi.tar.gz) (or the [local file](./data/apte-bi.tar.gz)), which happens to have been modified into a bi-directional Sanskrit-English, English-Sanskrit dictionary whose output is in the Devanāgarī script).  A similar process as that given above seems to work:
+In particular, we can start with [Apte's *Practical Sanskrit-English Dictionary*](http://old.aupasana.com/file-cabinet/apte-bi.tar.gz) (or the [local file](./data/apte-bi.tar.gz)), which happens to have been modified into a bi-directional Sanskrit-English, English-Sanskrit dictionary whose output is in the Devanāgarī script).  A similar process as that given above seems to work:
 
 ```
 > pyenv activate glossary
@@ -225,7 +225,7 @@ Then we change the "Bundle display name" to "Apte's Practical Sanskrit-English D
 
 ### Monier-Williams
 
-Next we try the [Monier-Williams *Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/mw-bi-itrans-dev.tar.gz) ([locally](./data/mw-bi-itrans-dev.tar.gz)).  This version is again bi-directional and renders the Sanskrit in Devanāgarī.  We try the same procedure:
+Next we try the [Monier-Williams *Sanskrit-English Dictionary*](http://old.aupasana.com/file-cabinet/mw-bi-itrans-dev.tar.gz) ([locally](./data/mw-bi-itrans-dev.tar.gz)).  This version is again bi-directional and renders the Sanskrit in Devanāgarī.  We try the same procedure:
 
 ```
 > pyenv activate glossary
@@ -237,7 +237,7 @@ Next we try the [Monier-Williams *Sanskrit-English Dictionary*](http://www.aupas
 
 We change the "Bundle display name" to "Monier-Williams's Practical Sanskrit-English Dictionary (Bi-Directional)" and the "Bundle name" to "MW S-E-S".
 
-And finally, because at times it's useful just to have the Roman transliteration, we'll try to install the [Monier-Williams *Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/mw-itrans-rom.tar.gz) ([local file](./data/mw-itrans-rom.tar.gz)) using a transliterated format.  This dictionary is only unidirectional: Sanskrit-English.  We try
+And finally, because at times it's useful just to have the Roman transliteration, we'll try to install the [Monier-Williams *Sanskrit-English Dictionary*](http://old.aupasana.com/file-cabinet/mw-itrans-rom.tar.gz) ([local file](./data/mw-itrans-rom.tar.gz)) using a transliterated format.  This dictionary is only unidirectional: Sanskrit-English.  We try
 
 ```
 > pyenv activate glossary
