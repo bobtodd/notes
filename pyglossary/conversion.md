@@ -37,6 +37,14 @@ We need to install a couple of packages.  We'll use `pip`:
 
 I forget if some of those are installed automatically as dependencies for BeautifulSoup4.  That's the one we're really after.
 
+### What about Anaconda?
+
+If we're using [`conda`](https://conda.io/docs/using/envs.html#change-environments-activate-deactivate) rather than Pyenv, then we should try this procedure.
+
+```
+> conda create --name glossary python=2 beautifulsoup4 html5lib six wsgiref
+```
+
 ## Xcode Setup
 
 We also need to use Mac-specific tools, understandably, as we're trying to create a dictionary for that platform.  So unsurprisingly, we'll need Xcode.  You can download that [here](http://developer.apple.com/downloads).  You'll need an Apple ID to download Xcode.  In particular, you need to install the Command Line Tools.  The instructions for installing them are pretty straightforward as part of Xcode installation.  But the step that might not be clear is the following:
@@ -305,6 +313,54 @@ For the "Bundle display name" we can write "Webster's Revised Unabridged Diction
 
 Now *that's* some serious dictionariousness.
 
+### And more English: Bosworth-Toller
+
+We can find the Bosworth-Toller *Anglo-Saxon Dictionary* [here](http://norroen.info/files/lingvo/oe_bosworthtoller.dsl.zip) (or locally [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/oe_bosworthtoller.dsl.zip)).  We unzip the file to get the directory `oe_bosworthtoller.dsl/`.  Then the standard procedure:
+
+```
+> cd ~/Desktop/oe_bosworthtoller.dsl/
+> pyenv activate glossary
+> /path/to/convert_dsl_to_appledict.sh oe_bosworthtoller.dsl
+> pyenv deactivate glossary
+```
+
+Or if we've now moved to using [`conda`](https://conda.io/docs/using/envs.html#change-environments-activate-deactivate), then like so:
+
+```
+> cd ~/Desktop/oe_bosworthtoller.dsl/
+> conda env list
+> source activate glossary
+> /path/to/convert_dsl_to_appledict.sh oe_bosworthtoller.dsl
+> source deactivate
+```
+
+Unfortunately this gives an error:
+
+```
+Running make ...
+"""/Developer/Extras/Dictionary Development Kit"/bin"/build_dict.sh"  "oe_bosworthtoller_utf8" "oe_bosworthtoller_utf8.xml" "oe_bosworthtoller_utf8.css" "oe_bosworthtoller_utf8.plist"
+- Building oe_bosworthtoller_utf8.dictionary.
+- Cleaning objects directory.
+- Preparing dictionary template.
+- Preprocessing dictionary sources.
+seek() on closed filehandle ARGV at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 38, <> chunk 4.
+Use of uninitialized value $_ in pattern match (m//) at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 39, <> chunk 4.
+Died at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 39, <> chunk 4.
+Error.
+make: *** [all] Error 1
+running make install...
+echo "Installing into ~/Library/Dictionaries".
+Installing into ~/Library/Dictionaries.
+mkdir -p ~/Library/Dictionaries
+ditto --noextattr --norsrc ./objects/"oe_bosworthtoller_utf8".dictionary  ~/Library/Dictionaries/"oe_bosworthtoller_utf8".dictionary
+ditto: can't get real path for source './objects/oe_bosworthtoller_utf8.dictionary'
+make: *** [install] Error 1
+run make clean? (press CTR+c to cancel)y
+```
+
+Hmmm... I'll have to see what that's about.
+
+
 ## Shortcuts
 
 As it turns out, if you're trying to download and install the Lingvo dictionaries in-app, clicking on the links in GitHub doesn't work well.  That's because you need the "raw" files, rather than GitHub's display.  Here's a list of shortcuts for the above dictionaries.
@@ -320,3 +376,4 @@ As it turns out, if you're trying to download and install the Lingvo dictionarie
 | Pali-English-Pali | [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pali-en-pa.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/pali-en-pa.tar.gz) |
 | OCS (U. of Pitt.) | [here](https://podolak.net/doc/dictionaries/chu-eng_pitt-edu_podomart_2_0.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/chu-eng_pitt-edu_podomart_2_0.dsl.zip) |
 | Old Russian (U. of Pitt.) | [here](https://podolak.net/doc/dictionaries/orv-rus_pitt-edu_podomart_2_1.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/orv-rus_pitt-edu_podomart_2_1.dsl.zip) |
+| Bosworth-Toller | [here](http://norroen.info/files/lingvo/oe_bosworthtoller.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/oe_bosworthtoller.dsl.zip) |
