@@ -32,8 +32,8 @@ Added notes (TBK):
   1. Make sure you have installed the Dictionary Development Kit, as mentioned above
   1. if *.dsl file is zipped, first unzip, then descend into the directory
 	 "
-     
-if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$#" != "1" ] ; then 
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$#" != "1" ] ; then
 	echo -e $usage
 	exit ;
 fi
@@ -67,7 +67,7 @@ echo Running make ...
 
 make
 
-echo running make install... 
+echo running make install...
 
 make install
 
@@ -78,7 +78,7 @@ make clean
 
 #remove unpacked .dz file if exists
 if [ $is_dictzip == true ] ; then
-	
+
 	read -p "Remove generated files?"
 
 	echo deleting generated files...
@@ -92,4 +92,3 @@ if [ $is_dictzip == true ] ; then
 fi
 
 echo All Finished!
-

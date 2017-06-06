@@ -37,6 +37,21 @@ We need to install a couple of packages.  We'll use `pip`:
 
 I forget if some of those are installed automatically as dependencies for BeautifulSoup4.  That's the one we're really after.
 
+### What about Anaconda?
+
+If we're using [`conda`](https://conda.io/docs/using/envs.html#change-environments-activate-deactivate) rather than Pyenv, then we should try this procedure.
+
+```
+> conda create --name glossary python=2 beautifulsoup4 html5lib six wsgiref
+```
+
+**NB:** Now PyGlossary has been upgraded to work with Python 3.  Moreover `wsgiref` only works with Python 2.  So try the following:
+
+```
+> conda create --name glossary python=3 beautifulsoup4 html5lib lxml
+```
+
+
 ## Xcode Setup
 
 We also need to use Mac-specific tools, understandably, as we're trying to create a dictionary for that platform.  So unsurprisingly, we'll need Xcode.  You can download that [here](http://developer.apple.com/downloads).  You'll need an Apple ID to download Xcode.  In particular, you need to install the Command Line Tools.  The instructions for installing them are pretty straightforward as part of Xcode installation.  But the step that might not be clear is the following:
@@ -207,11 +222,11 @@ Finally!  I've finally got the PTS's *PED* in the Mac Dictionary.app!
 
 ## And Just for Kicks: Sanskrit
 
-Let's see if we can install some Sanskrit dictionaries.  [This page](http://www.aupasana.com/stardict) lists some collections of bi-directional dictionaries which it would be useful to install.
+Let's see if we can install some Sanskrit dictionaries.  [This page](http://old.aupasana.com/stardict) lists some collections of bi-directional dictionaries which it would be useful to install.  (Note that, according to the note at the bottom of [this page](http://aupasana.com/), the original pages have been archived.)
 
 ### Apte
 
-In particular, we can start with [Apte's *Practical Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/apte-bi.tar.gz) (or the [local file](./data/apte-bi.tar.gz)), which happens to have been modified into a bi-directional Sanskrit-English, English-Sanskrit dictionary whose output is in the Devanāgarī script).  A similar process as that given above seems to work:
+In particular, we can start with [Apte's *Practical Sanskrit-English Dictionary*](http://old.aupasana.com/file-cabinet/apte-bi.tar.gz) (or the [local file](./data/apte-bi.tar.gz)), which happens to have been modified into a bi-directional Sanskrit-English, English-Sanskrit dictionary whose output is in the Devanāgarī script).  A similar process as that given above seems to work:
 
 ```
 > pyenv activate glossary
@@ -225,7 +240,7 @@ Then we change the "Bundle display name" to "Apte's Practical Sanskrit-English D
 
 ### Monier-Williams
 
-Next we try the [Monier-Williams *Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/mw-bi-itrans-dev.tar.gz) ([locally](./data/mw-bi-itrans-dev.tar.gz)).  This version is again bi-directional and renders the Sanskrit in Devanāgarī.  We try the same procedure:
+Next we try the [Monier-Williams *Sanskrit-English Dictionary*](http://old.aupasana.com/file-cabinet/mw-bi-itrans-dev.tar.gz) ([locally](./data/mw-bi-itrans-dev.tar.gz)).  This version is again bi-directional and renders the Sanskrit in Devanāgarī.  We try the same procedure:
 
 ```
 > pyenv activate glossary
@@ -237,7 +252,7 @@ Next we try the [Monier-Williams *Sanskrit-English Dictionary*](http://www.aupas
 
 We change the "Bundle display name" to "Monier-Williams's Practical Sanskrit-English Dictionary (Bi-Directional)" and the "Bundle name" to "MW S-E-S".
 
-And finally, because at times it's useful just to have the Roman transliteration, we'll try to install the [Monier-Williams *Sanskrit-English Dictionary*](http://www.aupasana.com/file-cabinet/mw-itrans-rom.tar.gz) ([local file](./data/mw-itrans-rom.tar.gz)) using a transliterated format.  This dictionary is only unidirectional: Sanskrit-English.  We try
+And finally, because at times it's useful just to have the Roman transliteration, we'll try to install the [Monier-Williams *Sanskrit-English Dictionary*](http://old.aupasana.com/file-cabinet/mw-itrans-rom.tar.gz) ([local file](./data/mw-itrans-rom.tar.gz)) using a transliterated format.  This dictionary is only unidirectional: Sanskrit-English.  We try
 
 ```
 > pyenv activate glossary
@@ -304,3 +319,84 @@ Start by decompressing the file with your favorite decompression tool.  This wil
 For the "Bundle display name" we can write "Webster's Revised Unabridged Dictionary (1913)" and for the "Bundle name" we try "W1913".
 
 Now *that's* some serious dictionariousness.
+
+### And more English: Bosworth-Toller
+
+We can find the Bosworth-Toller *Anglo-Saxon Dictionary* [here](http://norroen.info/files/lingvo/oe_bosworthtoller.dsl.zip) (or locally [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/oe_bosworthtoller.dsl.zip)).  We unzip the file to get the directory `oe_bosworthtoller.dsl/`.  Then the standard procedure:
+
+```
+> cd ~/Desktop/oe_bosworthtoller.dsl/
+> pyenv activate glossary
+> /path/to/convert_dsl_to_appledict.sh oe_bosworthtoller.dsl
+> pyenv deactivate glossary
+```
+
+Or if we've now moved to using [`conda`](https://conda.io/docs/using/envs.html#change-environments-activate-deactivate), then like so:
+
+```
+> cd ~/Desktop/oe_bosworthtoller.dsl/
+> conda env list
+> source activate glossary
+> /path/to/convert_dsl_to_appledict.sh oe_bosworthtoller.dsl
+> source deactivate
+```
+
+Unfortunately this gives an error:
+
+```
+utf8dsl= oe_bosworthtoller_utf8.dsl
+converting oe_bosworthtoller.dsl to oe_bosworthtoller_utf8.dsl...
+
+iconv: oe_bosworthtoller.dsl:1:22542008: incomplete character or shift sequence
+conversion to UTF-8 done!
+converting oe_bosworthtoller_utf8.dsl to AppleDictFormat
+no `Reader` class found in ABBYYLingvoDSL plugin, falling back to indirect mode
+
+Writing to file "/Users/bobtodd/Desktop/oe_bosworthtoller.dsl/oe_bosworthtoller_utf8.xml"
+Writing|██████████████████████████████████████████████████████████████████████████████████████████|100.0% Time: 00:00:00
+
+Running time of convert: 0.2 seconds
+Writing file "oe_bosworthtoller_utf8.xml" done.
+Running make ...
+"""/Developer/Extras/Dictionary Development Kit"/bin"/build_dict.sh"  "oe_bosworthtoller_utf8" "oe_bosworthtoller_utf8.xml" "oe_bosworthtoller_utf8.css" "oe_bosworthtoller_utf8.plist"
+- Building oe_bosworthtoller_utf8.dictionary.
+- Cleaning objects directory.
+- Preparing dictionary template.
+- Preprocessing dictionary sources.
+seek() on closed filehandle ARGV at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 38, <> chunk 4.
+Use of uninitialized value $_ in pattern match (m//) at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 39, <> chunk 4.
+Died at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 39, <> chunk 4.
+Error.
+make: *** [all] Error 1
+running make install...
+echo "Installing into ~/Library/Dictionaries".
+Installing into ~/Library/Dictionaries.
+mkdir -p ~/Library/Dictionaries
+ditto --noextattr --norsrc ./objects/"oe_bosworthtoller_utf8".dictionary  ~/Library/Dictionaries/"oe_bosworthtoller_utf8".dictionary
+ditto: can't get real path for source './objects/oe_bosworthtoller_utf8.dictionary'
+make: *** [install] Error 1
+run make clean? (press CTR+c to cancel)y
+cleaning up
+/bin/rm -rf ./objects
+All Finished!
+```
+
+Hmmm... I'll have to see what that's about.
+
+
+## Shortcuts
+
+As it turns out, if you're trying to download and install the Lingvo dictionaries in-app, clicking on the links in GitHub doesn't work well.  That's because you need the "raw" files, rather than GitHub's display.  Here's a list of shortcuts for the above dictionaries.
+
+| **Dictionary** | **Original Link** | **Raw Local Link** |
+| :-- | :-- | :-- |
+| Cleasby | [here](http://norse.ulver.com/files/lingvo/cleasby.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/cleasby.dsl.zip) |
+| Zoëga | [here](http://norse.ulver.com/files/lingvo/zoega.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/zoega.dsl.zip) |
+| Apte (Bi-Directional) | [here](http://old.aupasana.com/file-cabinet/apte-bi.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/apte-bi.tar.gz) |
+| Monier-Williams (Bi-Directional) | [here](http://old.aupasana.com/file-cabinet/mw-bi-itrans-dev.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/mw-bi-itrans-dev.tar.gz) |
+| Monier-Williams (Uni-Directional) | [here](http://old.aupasana.com/file-cabinet/mw-itrans-rom.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/mw-itrans-rom.tar.gz) |
+| PTS PED | [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pts_pali.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/pts_pali.tar.gz) |
+| Pali-English-Pali | [here](https://github.com/sanskrit-coders/stardict-pali/blob/master/en-head/tars/pali-en-pa.tar.gz) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/pali-en-pa.tar.gz) |
+| OCS (U. of Pitt.) | [here](https://podolak.net/doc/dictionaries/chu-eng_pitt-edu_podomart_2_0.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/chu-eng_pitt-edu_podomart_2_0.dsl.zip) |
+| Old Russian (U. of Pitt.) | [here](https://podolak.net/doc/dictionaries/orv-rus_pitt-edu_podomart_2_1.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/orv-rus_pitt-edu_podomart_2_1.dsl.zip) |
+| Bosworth-Toller | [here](http://norroen.info/files/lingvo/oe_bosworthtoller.dsl.zip) | [here](https://github.com/bobtodd/notes/raw/master/pyglossary/data/oe_bosworthtoller.dsl.zip) |
