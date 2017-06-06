@@ -45,6 +45,13 @@ If we're using [`conda`](https://conda.io/docs/using/envs.html#change-environmen
 > conda create --name glossary python=2 beautifulsoup4 html5lib six wsgiref
 ```
 
+**NB:** Now PyGlossary has been upgraded to work with Python 3.  Moreover `wsgiref` only works with Python 2.  So try the following:
+
+```
+> conda create --name glossary python=3 beautifulsoup4 html5lib lxml
+```
+
+
 ## Xcode Setup
 
 We also need to use Mac-specific tools, understandably, as we're trying to create a dictionary for that platform.  So unsurprisingly, we'll need Xcode.  You can download that [here](http://developer.apple.com/downloads).  You'll need an Apple ID to download Xcode.  In particular, you need to install the Command Line Tools.  The instructions for installing them are pretty straightforward as part of Xcode installation.  But the step that might not be clear is the following:
@@ -337,6 +344,19 @@ Or if we've now moved to using [`conda`](https://conda.io/docs/using/envs.html#c
 Unfortunately this gives an error:
 
 ```
+utf8dsl= oe_bosworthtoller_utf8.dsl
+converting oe_bosworthtoller.dsl to oe_bosworthtoller_utf8.dsl...
+
+iconv: oe_bosworthtoller.dsl:1:22542008: incomplete character or shift sequence
+conversion to UTF-8 done!
+converting oe_bosworthtoller_utf8.dsl to AppleDictFormat
+no `Reader` class found in ABBYYLingvoDSL plugin, falling back to indirect mode
+
+Writing to file "/Users/bobtodd/Desktop/oe_bosworthtoller.dsl/oe_bosworthtoller_utf8.xml"
+Writing|██████████████████████████████████████████████████████████████████████████████████████████|100.0% Time: 00:00:00
+
+Running time of convert: 0.2 seconds
+Writing file "oe_bosworthtoller_utf8.xml" done.
 Running make ...
 """/Developer/Extras/Dictionary Development Kit"/bin"/build_dict.sh"  "oe_bosworthtoller_utf8" "oe_bosworthtoller_utf8.xml" "oe_bosworthtoller_utf8.css" "oe_bosworthtoller_utf8.plist"
 - Building oe_bosworthtoller_utf8.dictionary.
@@ -356,6 +376,9 @@ ditto --noextattr --norsrc ./objects/"oe_bosworthtoller_utf8".dictionary  ~/Libr
 ditto: can't get real path for source './objects/oe_bosworthtoller_utf8.dictionary'
 make: *** [install] Error 1
 run make clean? (press CTR+c to cancel)y
+cleaning up
+/bin/rm -rf ./objects
+All Finished!
 ```
 
 Hmmm... I'll have to see what that's about.
