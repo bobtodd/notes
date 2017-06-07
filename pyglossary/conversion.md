@@ -341,7 +341,7 @@ Or if we've now moved to using [`conda`](https://conda.io/docs/using/envs.html#c
 > source deactivate
 ```
 
-Unfortunately this gives an error:
+Make sure to update to the [latest version of the Additional Tools for Xcode](http://developer.apple.com/downloads).  After that, and after ensuring that Xcode installed the command line utilities, I still unfortunately get an error:
 
 ```
 utf8dsl= oe_bosworthtoller_utf8.dsl
@@ -358,26 +358,12 @@ Writing|████████████████████████
 Running time of convert: 0.2 seconds
 Writing file "oe_bosworthtoller_utf8.xml" done.
 Running make ...
-"""/Developer/Extras/Dictionary Development Kit"/bin"/build_dict.sh"  "oe_bosworthtoller_utf8" "oe_bosworthtoller_utf8.xml" "oe_bosworthtoller_utf8.css" "oe_bosworthtoller_utf8.plist"
-- Building oe_bosworthtoller_utf8.dictionary.
-- Cleaning objects directory.
-- Preparing dictionary template.
-- Preprocessing dictionary sources.
-seek() on closed filehandle ARGV at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 38, <> chunk 4.
-Use of uninitialized value $_ in pattern match (m//) at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 39, <> chunk 4.
-Died at /Developer/Extras/Dictionary Development Kit/bin/make_line.pl line 39, <> chunk 4.
-Error.
-make: *** [all] Error 1
+make: *** No targets specified and no makefile found.  Stop.
 running make install...
-echo "Installing into ~/Library/Dictionaries".
-Installing into ~/Library/Dictionaries.
-mkdir -p ~/Library/Dictionaries
-ditto --noextattr --norsrc ./objects/"oe_bosworthtoller_utf8".dictionary  ~/Library/Dictionaries/"oe_bosworthtoller_utf8".dictionary
-ditto: can't get real path for source './objects/oe_bosworthtoller_utf8.dictionary'
-make: *** [install] Error 1
+make: *** No rule to make target `install'.  Stop.
 run make clean? (press CTR+c to cancel)y
 cleaning up
-/bin/rm -rf ./objects
+make: *** No rule to make target `clean'.  Stop.
 All Finished!
 ```
 
