@@ -185,3 +185,89 @@ Let's put the original `djvu` file in a test directory.  Then let's try
 ```
 
 Success!  For now...
+
+## Issues
+
+You might get issues like the following.
+
+```bash
+OCRd text extracted.
+/Users/bobtodd/.rvm/rubies/ruby-2.4.0-rc1/lib/ruby/site_ruby/2.4.0/rubygems/core_ext/kernel_require.rb:120:in `require': dlopen(/Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/gems/rmagick-2.16.0/lib/RMagick2.bundle, 9): Library not loaded: /usr/local/opt/imagemagick@6/lib/libMagickWand-6.Q16.3.dylib (LoadError)
+  Referenced from: /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/gems/rmagick-2.16.0/lib/RMagick2.bundle
+  Reason: image not found - /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/gems/rmagick-2.16.0/lib/RMagick2.bundle
+	from /Users/bobtodd/.rvm/rubies/ruby-2.4.0-rc1/lib/ruby/site_ruby/2.4.0/rubygems/core_ext/kernel_require.rb:120:in `require'
+	from /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/gems/rmagick-2.16.0/lib/rmagick_internal.rb:12:in `<top (required)>'
+	from /Users/bobtodd/.rvm/rubies/ruby-2.4.0-rc1/lib/ruby/site_ruby/2.4.0/rubygems/core_ext/kernel_require.rb:68:in `require'
+	from /Users/bobtodd/.rvm/rubies/ruby-2.4.0-rc1/lib/ruby/site_ruby/2.4.0/rubygems/core_ext/kernel_require.rb:68:in `require'
+	from /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/gems/rmagick-2.16.0/lib/RMagick.rb:1:in `<top (required)>'
+	from /Users/bobtodd/.rvm/rubies/ruby-2.4.0-rc1/lib/ruby/site_ruby/2.4.0/rubygems/core_ext/kernel_require.rb:68:in `require'
+	from /Users/bobtodd/.rvm/rubies/ruby-2.4.0-rc1/lib/ruby/site_ruby/2.4.0/rubygems/core_ext/kernel_require.rb:68:in `require'
+	from /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/gems/pdfbeads-1.1.1/lib/pdfbeads.rb:35:in `<top (required)>'
+	from /Users/bobtodd/.rvm/rubies/ruby-2.4.0-rc1/lib/ruby/site_ruby/2.4.0/rubygems/core_ext/kernel_require.rb:68:in `require'
+	from /Users/bobtodd/.rvm/rubies/ruby-2.4.0-rc1/lib/ruby/site_ruby/2.4.0/rubygems/core_ext/kernel_require.rb:68:in `require'
+	from /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/gems/pdfbeads-1.1.1/bin/pdfbeads:38:in `<top (required)>'
+	from /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/bin/pdfbeads:22:in `load'
+	from /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/bin/pdfbeads:22:in `<main>'
+	from /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/bin/ruby_executable_hooks:15:in `eval'
+	from /Users/bobtodd/.rvm/gems/ruby-2.4.0-rc1@djvu2pdf/bin/ruby_executable_hooks:15:in `<main>'
+
+NOTE: There was a problem beading, see above output.
+```
+
+A similar problem seems to be listed in [this GitHub issue](https://github.com/dergachev/screengif/issues/26).  It references the solution [here](https://stackoverflow.com/questions/19040932/rmagick-complaining-about-libmagickcore-5-dylib-not-found-in-osx/19040933#19040933).   In that solution I prefer the one that uses the package managers, rather than hand-coding the symbolic links.  So we can try that.  Note also [this thread](https://stackoverflow.com/questions/39494672/rmagick-installation-cant-find-magickwand-h) that says you need to tell Homebrew to link `imagemagick@6`. 
+
+```
+brew uninstall imagemagick@6
+# you might need `brew uninstall --force imagemagick@6`
+brew install imagemagick@6
+brew unlink imagemagick # unlinking other (later) versions, so beware
+brew link imagemagick@6 --force
+rvm gemset use djvu2pdf
+gem uninstall rmagick
+gem install rmagick
+```
+
+Note the output from Homebrew:
+
+```
+==> Caveats
+This formula is keg-only, which means it was not symlinked into /usr/local,
+because this is an alternate version of another formula.
+
+If you need to have this software first in your PATH run:
+  echo 'export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"' >> ~/.bash_profile
+
+For compilers to find this software you may need to set:
+    LDFLAGS:  -L/usr/local/opt/imagemagick@6/lib
+    CPPFLAGS: -I/usr/local/opt/imagemagick@6/include
+For pkg-config to find this software you may need to set:
+    PKG_CONFIG_PATH: /usr/local/opt/imagemagick@6/lib/pkgconfig
+
+==> Summary
+🍺  /usr/local/Cellar/imagemagick@6/6.9.9-40: 1,471 files, 23.0MB
+```
+
+This is exactly the linking we did by hand in the additional steps above.
+
+But the ultimate output gives this error.
+
+```
+Beading complete.
+Bookmarks extracted.
+Original PDF metadata extracted.
+Traceback (most recent call last):
+  File "/Users/bobtodd/BtWk/Extras/dpsprep/dpsprep", line 130, in <module>
+    pdfbmarks = walk_bmarks(sexpdata.load(open(tmp + '/bmarks.out')), 0)
+  File "/Users/bobtodd/BtWk/Extras/dpsprep/dpsprep", line 19, in walk_bmarks
+    output = output + walk_bmarks(j, level + 1)
+  File "/Users/bobtodd/BtWk/Extras/dpsprep/dpsprep", line 19, in walk_bmarks
+    output = output + walk_bmarks(j, level + 1)
+  File "/Users/bobtodd/BtWk/Extras/dpsprep/dpsprep", line 25, in walk_bmarks
+    output = output + "BookmarkPageNumber: %s\n" % j.split('#')[1]
+IndexError: list index out of range
+```
+
+
+## Newer Edition
+
+It might be better to follow [this thread](https://bobbielf2.github.io/blog/2017/04/11/preserve-the-table-of-contents-when-converting-a-book-from-djvu-to-pdf/) on how to [*Preserve the Table of Contents When Converting a Book From Djvu to PDF*](https://bobbielf2.github.io/blog/2017/04/11/preserve-the-table-of-contents-when-converting-a-book-from-djvu-to-pdf/).
