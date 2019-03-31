@@ -95,7 +95,45 @@ There's one last tool that makes things work a lot more quickly.  (We could do e
 
 What you'll need to do is edit the very beginning of the script for your `PYGLOSSARY_HOME`.  I've set that variable to my clone of the PyGlossary repo inside my work directory, called `BtWk/Extras/`.  You'll need to adjust this to your work directory containing the PyGlossary clone.
 
-Now you should be ready to go.
+### Working with Conda
+
+This might run into some errors with Anaconda.  If you get the error
+
+> ModuleNotFoundError: No module named 'pyglossary.plugin_lib.py37'
+
+then some solutions like [this](https://github.com/ilius/pyglossary/issues/101) suggest changing into the `pyglossary` directory and running
+
+```
+python3 pyglossary.pyw
+```
+
+If that doesn't work, you might need to install `gi`.  One option is [this solution](https://stackoverflow.com/questions/37526026/how-to-install-gi-module-for-anaconda-python3/52226216#52226216):
+
+```
+conda install -c conda-forge pygobject
+```
+
+since evidently `gi` is a dependency.  Or, within the specific environment:
+
+```
+conda activate glossary
+conda install -c conda-forge pygobject
+conda deactivate
+```
+
+Running `python3 pyglossary.pyw` might still give the error
+
+> ValueError: Namespace Gtk not available
+
+In that case, the last comment in [this solution](https://github.com/ContinuumIO/anaconda-issues/issues/10139) is
+
+```
+conda install -c ostrokach gtk
+```
+
+Actually, it's not clear that works...
+
+Let's have a go anyway.
 
 ## Let's *Do* This!
 
