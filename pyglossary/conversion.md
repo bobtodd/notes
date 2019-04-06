@@ -208,6 +208,43 @@ All Finished!
 
 If you now open the Mac Dictionary.app, go to Preferences and look at your dictionaries.  You should see a listing for "Zoëga's Old Icelandic Dictionary (Is-En)".  That's the one you want.
 
+
+## A shortened version using PyGlossary directly
+
+Let's see how to do this without the helpful script.  In this case we'll take the *Greek-English Lexicon* by Liddell & Scott that can be found at [this page](http://chaerephon.e-monsite.com/medias/files/bailly.html) (in French), and downloaded from [this link](http://chaerephon.e-monsite.com/medias/files/lsj.zip).  Unzipping that file will leave you with a folder `lsj/`, in which you'll have another folder `LSJ/` with contents
+
+```
+(base) 10:48 AM lrcmbpbt:LSJ> ls
+LSJ.1940-7.5.dict  LSJ.1940-7.5.ifo   biblio.LSJ.dict    biblio.LSJ.ifo
+LSJ.1940-7.5.idx   LSJ.1940-7.5.jpg   biblio.LSJ.idx
+```
+
+Assuming you've put `lsj/` on your `Desktop/`, then follow the procedure below:
+
+```
+cd Desktop/lsj/LSJ/
+conda activate glossary
+python3 ~/BtWk/Extras/pyglossary/pyglossary.pyw --write-format=AppleDict LSJ.1940-7.5.ifo Liddell-Scott-apple
+cd Liddell-Scott-apple/
+make
+make install
+conda deactivate
+```
+
+This seems to function even though I currently get the error
+
+```
+Traceback (most recent call last):
+  File "/Users/bobtodd/BtWk/Extras/pyglossary/pyglossary/plugins/babylon_bgl/bgl_reader.py", line 32, in <module>
+    fromlist="GzipFile",
+ModuleNotFoundError: No module named 'pyglossary.plugin_lib.py37'
+If things didn't work well with BGL files, install Python 3.5 and try again
+Using Reader class from Stardict plugin for direct conversion without loading into memory
+```
+
+when running the `pyglossary` command.  At the end there's a file `Liddell-Scott-apple.dictionary` in the folder `~/Library/Dictionaries`.
+
+
 ## Addendum: Dictionary Naming
 
 If you're like me, you've got a lot of dictionaries that you need to switch among.  This leads to a competition for space on the menu bar of the Dictionary.app.  So you need to be able to name the dictionaries meaningfully.  [This blog post](https://davidtse916.wordpress.com/2008/01/24/adding-dictionaries-to-the-built-in-dictionary-application-in-leopard/) provides a nice explanation of how to go about it.  The majority of the post is about using the DictUnifier app to create a dictionary, which we've already done.  But at the end it tells you how to edit the name of the dictionary you've created.
