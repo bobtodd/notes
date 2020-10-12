@@ -444,6 +444,33 @@ All Finished!
 
 Hmmm... I'll have to see what that's about.
 
+## A Simple Installation of Lewis & Short's *A Latin Dictionary*
+
+Update `pyglossary`.  In your home directory, create a new directory `Developer/Extras`.  Within that directory, install a copy of Apple's Dictionary Development Kit.  You can find a copy [here](https://github.com/SebastianSzturo/Dictionary-Development-Kit) for convenience.  You'll want to make sure you have a path like the following:
+
+```bash
+/Users/<user>/Developer/Extras/Dictionary Development Kit/bin/build_dict.sh
+```
+
+Now get the Lewis & Short dictionary in `stardict` format.  You can find that [here](https://www.mobileread.com/forums/attachment.php?s=0de85ebf0a103891988f60dadbbb9a6a&attachmentid=133126&d=1419941631).  Download and unzip the folder.  Then we do the following:
+
+```bash
+cd Lewis\ and\ Short/stardict-LewisShort.xdxf-2.4.2/
+python3 path/to/pyglossary/pyglossary.pyw --write-format=AppleDict LewisShort.xdxf.ifo LewisShort-apple
+cd LewisShort-apple/
+make
+make install
+```
+
+This should create the file
+
+```bash
+~/Library/Dictionaries/LewisShort-apple.dictionary
+```
+
+Within the Dictionary.app preferences select the dictionary and it should be usable in the app.
+
+For the "Bundle display name" we can write "Lewis & Short's Latin Dictionary" and for the "Bundle name" we try "L&S".
 
 ## Shortcuts
 
